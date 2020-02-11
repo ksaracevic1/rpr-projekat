@@ -6,7 +6,14 @@ public class Developer {
     private Integer id;
     private SimpleStringProperty name;
     private SimpleStringProperty description;
-    private SimpleStringProperty iconLink;
+    private String iconLink;
+
+    public Developer(Integer id, String name, String description, String iconLink) {
+        this.id = id;
+        this.name = new SimpleStringProperty(name);
+        this.description = new SimpleStringProperty(description);
+        this.iconLink = iconLink;
+    }
 
     public Integer getId() {
         return id;
@@ -41,15 +48,11 @@ public class Developer {
     }
 
     public String getIconLink() {
-        return iconLink.get();
-    }
-
-    public SimpleStringProperty iconLinkProperty() {
         return iconLink;
     }
 
     public void setIconLink(String iconLink) {
-        this.iconLink.set(iconLink);
+        this.iconLink = iconLink;
     }
 
     @Override
