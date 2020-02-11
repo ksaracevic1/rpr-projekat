@@ -5,6 +5,7 @@ import ba.unsa.etf.rpr.projekat.DTO.Developer;
 import ba.unsa.etf.rpr.projekat.DTO.UserAccount;
 import ba.unsa.etf.rpr.projekat.DTO.VideoGame;
 import ba.unsa.etf.rpr.projekat.Interfaces.DatabaseDAO;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.FileInputStream;
@@ -87,7 +88,17 @@ public class DatabaseDAODB implements DatabaseDAO {
 
     @Override
     public ObservableList<VideoGame> getVideoGames() {
-        return null;
+        ObservableList<VideoGame> videoGames= FXCollections.observableArrayList();
+        try{
+            ResultSet rs=getVideoGamesQuery.executeQuery();
+            while(rs.next()){
+                VideoGame videoGame=new VideoGame(rs.getInt(1),rs.getString(2),getDeveloperById(rs.getInt(3)),rs.getString(4),rs.getDate(5).toLocalDate());
+                videoGames.add(videoGame);
+            }
+        } catch (SQLException e){
+            System.out.println("Error while executing query");
+        }
+        return videoGames;
     }
 
     @Override
@@ -132,7 +143,17 @@ public class DatabaseDAODB implements DatabaseDAO {
 
     @Override
     public Developer getDeveloperById(int id) {
-        return null;
+        Developer developer=null;
+        try {
+            getDeveloperByIdQuery.setInt(1,id);
+            ResultSet rs=getDeveloperByIdQuery.executeQuery();
+            while (rs.next()){
+                developer=new Developer(rs.getInt(1),rs.getString(2),rs.getString(2),rs.getString(3));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error while executing query");
+        }
+        return developer;
     }
 
     @Override
