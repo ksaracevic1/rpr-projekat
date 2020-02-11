@@ -1,5 +1,6 @@
-package ba.unsa.etf.rpr.projekat;
+package ba.unsa.etf.rpr.projekat.Interfaces;
 
+import ba.unsa.etf.rpr.projekat.DTO.VideoGame;
 import javafx.collections.ObservableList;
 
 public interface VideoGameDAO {

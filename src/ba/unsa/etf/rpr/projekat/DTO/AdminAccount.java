@@ -1,4 +1,6 @@
-package ba.unsa.etf.rpr.projekat;
+package ba.unsa.etf.rpr.projekat.DTO;
+
+import ba.unsa.etf.rpr.projekat.DTO.Account;
 
 public class AdminAccount extends Account {
     public AdminAccount(int id, String username, String password) {
