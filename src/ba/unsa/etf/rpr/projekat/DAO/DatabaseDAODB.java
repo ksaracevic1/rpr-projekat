@@ -346,10 +346,10 @@ public class DatabaseDAODB implements DatabaseDAO {
             int id = 1;
             if (rs.next()) id = rs.getInt(1);
             adminAccount.setId(id);
-            addUserQuery.setInt(1, adminAccount.getId());
-            addUserQuery.setString(2, adminAccount.getUsername());
-            addUserQuery.setString(3, adminAccount.getPassword());
-            addUserQuery.executeUpdate();
+            addAdminQuery.setInt(1, adminAccount.getId());
+            addAdminQuery.setString(2, adminAccount.getUsername());
+            addAdminQuery.setString(3, adminAccount.getPassword());
+            addAdminQuery.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error while executing query");
         }
