@@ -13,7 +13,7 @@ public interface DatabaseDAO {
     void updateVideoGame(VideoGame videoGame);
     VideoGame getVideoGameById(int id);
 
-    ObservableList<Developer> getDeveloper();
+    ObservableList<Developer> getDevelopers();
     void addDeveloper(Developer developer);
     void removeDeveloper(Developer developer);
     void updateDeveloper(Developer developer);
@@ -25,7 +25,7 @@ public interface DatabaseDAO {
     void updateUser(UserAccount userAccount);
     UserAccount getUserById(int id);
 
-    ObservableList<AdminAccount> getAdmin();
+    ObservableList<AdminAccount> getAdmins();
     void addAdmin(AdminAccount adminAccount);
     void removeAdmin(AdminAccount adminAccount);
     void updateAdmin(AdminAccount adminAccount);

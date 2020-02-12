@@ -34,7 +34,7 @@ public class DatabaseDAOXML implements DatabaseDAO {
     }
 
     @Override
-    public ObservableList<Developer> getDeveloper() {
+    public ObservableList<Developer> getDevelopers() {
         return null;
     }
 
@@ -84,7 +84,7 @@ public class DatabaseDAOXML implements DatabaseDAO {
     }
 
     @Override
-    public ObservableList<AdminAccount> getAdmin() {
+    public ObservableList<AdminAccount> getAdmins() {
         return null;
     }
 
