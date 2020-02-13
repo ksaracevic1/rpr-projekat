@@ -22,7 +22,7 @@ public class DatabaseDAOXML implements DatabaseDAO {
     private ArrayList<UserAccount> userAccounts = new ArrayList<>();
     private ArrayList<AdminAccount> adminAccounts = new ArrayList<>();
 
-    DatabaseDAOXML() {
+    public DatabaseDAOXML() {
         read();
     }
 

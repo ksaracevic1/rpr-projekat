@@ -22,7 +22,7 @@ public class DatabaseDAODB implements DatabaseDAO {
             getAdminsQuery, addAdminQuery, removeAdminQuery, updateAdminQuery, getAdminByIdQuery,
             getNewVideoGameIdQuery, getNewAdminIdQuery, getNewUserIdQuery, getNewDeveloperIdQuery;
 
-    DatabaseDAODB() {
+    public DatabaseDAODB() {
         try {
             conn = DriverManager.getConnection("jdbc:sqlite:resources/db/database.db");
             PreparedStatement tableAmountQuery = conn.prepareStatement("SELECT count(*) FROM sqlite_master WHERE type = 'table'");
@@ -67,7 +67,7 @@ public class DatabaseDAODB implements DatabaseDAO {
             getNewUserIdQuery = conn.prepareStatement("SELECT MAX(id)+1 FROM user_account");
             getNewAdminIdQuery = conn.prepareStatement("SELECT MAX(id)+1 FROM admin_account");
 
-            addVideoGameQuery = conn.prepareStatement("INSERT INTO video_game VALUES(?,?,?,?,?)");
+            addVideoGameQuery = conn.prepareStatement("INSERT INTO video_game VALUES(?,?,?,?,?,?)");
             addDeveloperQuery = conn.prepareStatement("INSERT INTO developer VALUES(?,?,?,?)");
             addUserQuery = conn.prepareStatement("INSERT INTO user_account VALUES(?,?,?,?)");
             addAdminQuery = conn.prepareStatement("INSERT INTO admin_account VALUES(?,?,?)");
@@ -77,7 +77,7 @@ public class DatabaseDAODB implements DatabaseDAO {
             removeUserQuery = conn.prepareStatement("DELETE FROM user_account WHERE id=?");
             removeAdminQuery = conn.prepareStatement("DELETE FROM admin_account WHERE id=?");
 
-            updateVideoGameQuery = conn.prepareStatement("UPDATE video_game SET name=?, dev_id=?, description=?, release_date=? WHERE id=?");
+            updateVideoGameQuery = conn.prepareStatement("UPDATE video_game SET name=?, dev_id=?, description=?, release_date=?, image_link=? WHERE id=?");
             updateDeveloperQuery = conn.prepareStatement("UPDATE developer SET name=?, description=?, icon=? WHERE id=?");
             updateUserQuery = conn.prepareStatement("UPDATE user_account SET username=?, password=?, avatar=? WHERE id=?");
             updateAdminQuery = conn.prepareStatement("UPDATE admin_account SET username=?, password=? WHERE id=?");
@@ -96,7 +96,8 @@ public class DatabaseDAODB implements DatabaseDAO {
                         rs.getString(2),
                         getDeveloperById(rs.getInt(3)),
                         rs.getString(4),
-                        rs.getDate(5).toLocalDate());
+                        rs.getDate(5).toLocalDate(),
+                        rs.getString(6));
                 videoGames.add(videoGame);
             }
         } catch (SQLException e) {
@@ -120,6 +121,7 @@ public class DatabaseDAODB implements DatabaseDAO {
             addVideoGameQuery.setInt(3, videoGame.getDeveloper().getId());
             addVideoGameQuery.setString(4, videoGame.getDescription());
             addVideoGameQuery.setDate(5, Date.valueOf(videoGame.getReleaseDate()));
+            addVideoGameQuery.setString(6,videoGame.getImageLink());
             addVideoGameQuery.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error while executing query");
@@ -140,11 +142,12 @@ public class DatabaseDAODB implements DatabaseDAO {
     @Override
     public void updateVideoGame(VideoGame videoGame) {
         try {
-            updateVideoGameQuery.setInt(5, videoGame.getId());
+            updateVideoGameQuery.setInt(6, videoGame.getId());
             updateVideoGameQuery.setString(1, videoGame.getName());
             updateVideoGameQuery.setInt(2, videoGame.getDeveloper().getId());
             updateVideoGameQuery.setString(3, videoGame.getDescription());
             updateVideoGameQuery.setDate(4, Date.valueOf(videoGame.getReleaseDate()));
+            updateVideoGameQuery.setString(5, videoGame.getImageLink());
             updateVideoGameQuery.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error while executing query");
@@ -162,7 +165,8 @@ public class DatabaseDAODB implements DatabaseDAO {
                         rs.getString(2),
                         getDeveloperById(rs.getInt(3)),
                         rs.getString(4),
-                        rs.getDate(5).toLocalDate());
+                        rs.getDate(5).toLocalDate(),
+                        rs.getString(6));
             }
         } catch (SQLException e) {
             System.out.println("Error while executing query");

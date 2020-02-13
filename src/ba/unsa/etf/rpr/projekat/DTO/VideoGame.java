@@ -13,13 +13,15 @@ public class VideoGame {
     private SimpleStringProperty name;
     private SimpleStringProperty description;
     private SimpleObjectProperty<LocalDate> releaseDate;
+    private String imageLink;
 
-    public VideoGame(Integer id, String name, Developer developer, String description, LocalDate releaseDate){
+    public VideoGame(Integer id, String name, Developer developer, String description, LocalDate releaseDate, String imageLink){
         this.id=id;
         this.developer=developer;
         this.name=new SimpleStringProperty(name);
         this.description=new SimpleStringProperty(description);
         this.releaseDate=new SimpleObjectProperty<>(releaseDate);
+        this.imageLink=imageLink;
     }
 
     public Integer getId() {
@@ -72,5 +74,13 @@ public class VideoGame {
 
     public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate.set(releaseDate);
+    }
+
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
     }
 }
