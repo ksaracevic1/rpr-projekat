@@ -10,13 +10,15 @@ public class VideoGame {
 
     private Integer id;
     private Developer developer;
+    private SimpleStringProperty genre;
     private SimpleStringProperty name;
     private SimpleStringProperty description;
     private SimpleObjectProperty<LocalDate> releaseDate;
     private String imageLink;
 
-    public VideoGame(Integer id, String name, Developer developer, String description, LocalDate releaseDate, String imageLink){
+    public VideoGame(Integer id, String name,String genre ,Developer developer, String description, LocalDate releaseDate, String imageLink){
         this.id=id;
+        this.genre=new SimpleStringProperty(genre);
         this.developer=developer;
         this.name=new SimpleStringProperty(name);
         this.description=new SimpleStringProperty(description);
@@ -82,5 +84,17 @@ public class VideoGame {
 
     public void setImageLink(String imageLink) {
         this.imageLink = imageLink;
+    }
+
+    public String getGenre() {
+        return genre.get();
+    }
+
+    public SimpleStringProperty genreProperty() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre.set(genre);
     }
 }

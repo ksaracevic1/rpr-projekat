@@ -67,7 +67,7 @@ public class DatabaseDAODB implements DatabaseDAO {
             getNewUserIdQuery = conn.prepareStatement("SELECT MAX(id)+1 FROM user_account");
             getNewAdminIdQuery = conn.prepareStatement("SELECT MAX(id)+1 FROM admin_account");
 
-            addVideoGameQuery = conn.prepareStatement("INSERT INTO video_game VALUES(?,?,?,?,?,?)");
+            addVideoGameQuery = conn.prepareStatement("INSERT INTO video_game VALUES(?,?,?,?,?,?,?)");
             addDeveloperQuery = conn.prepareStatement("INSERT INTO developer VALUES(?,?,?,?)");
             addUserQuery = conn.prepareStatement("INSERT INTO user_account VALUES(?,?,?,?)");
             addAdminQuery = conn.prepareStatement("INSERT INTO admin_account VALUES(?,?,?)");
@@ -77,7 +77,7 @@ public class DatabaseDAODB implements DatabaseDAO {
             removeUserQuery = conn.prepareStatement("DELETE FROM user_account WHERE id=?");
             removeAdminQuery = conn.prepareStatement("DELETE FROM admin_account WHERE id=?");
 
-            updateVideoGameQuery = conn.prepareStatement("UPDATE video_game SET name=?, dev_id=?, description=?, release_date=?, image_link=? WHERE id=?");
+            updateVideoGameQuery = conn.prepareStatement("UPDATE video_game SET name=?, dev_id=?, genre=?, description=?, release_date=?, image_link=? WHERE id=?");
             updateDeveloperQuery = conn.prepareStatement("UPDATE developer SET name=?, description=?, icon=? WHERE id=?");
             updateUserQuery = conn.prepareStatement("UPDATE user_account SET username=?, password=?, avatar=? WHERE id=?");
             updateAdminQuery = conn.prepareStatement("UPDATE admin_account SET username=?, password=? WHERE id=?");
@@ -94,10 +94,11 @@ public class DatabaseDAODB implements DatabaseDAO {
             while (rs.next()) {
                 VideoGame videoGame = new VideoGame(rs.getInt(1),
                         rs.getString(2),
-                        getDeveloperById(rs.getInt(3)),
-                        rs.getString(4),
-                        rs.getDate(5).toLocalDate(),
-                        rs.getString(6));
+                        rs.getString(3),
+                        getDeveloperById(rs.getInt(4)),
+                        rs.getString(5),
+                        rs.getDate(6).toLocalDate(),
+                        rs.getString(7));
                 videoGames.add(videoGame);
             }
         } catch (SQLException e) {
@@ -118,10 +119,11 @@ public class DatabaseDAODB implements DatabaseDAO {
             videoGame.setId(id);
             addVideoGameQuery.setInt(1, videoGame.getId());
             addVideoGameQuery.setString(2, videoGame.getName());
-            addVideoGameQuery.setInt(3, videoGame.getDeveloper().getId());
-            addVideoGameQuery.setString(4, videoGame.getDescription());
-            addVideoGameQuery.setDate(5, Date.valueOf(videoGame.getReleaseDate()));
-            addVideoGameQuery.setString(6,videoGame.getImageLink());
+            addVideoGameQuery.setString(3, videoGame.getGenre());
+            addVideoGameQuery.setInt(4, videoGame.getDeveloper().getId());
+            addVideoGameQuery.setString(5, videoGame.getDescription());
+            addVideoGameQuery.setDate(6, Date.valueOf(videoGame.getReleaseDate()));
+            addVideoGameQuery.setString(7,videoGame.getImageLink());
             addVideoGameQuery.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error while executing query");
@@ -142,12 +144,13 @@ public class DatabaseDAODB implements DatabaseDAO {
     @Override
     public void updateVideoGame(VideoGame videoGame) {
         try {
-            updateVideoGameQuery.setInt(6, videoGame.getId());
+            updateVideoGameQuery.setInt(7, videoGame.getId());
             updateVideoGameQuery.setString(1, videoGame.getName());
-            updateVideoGameQuery.setInt(2, videoGame.getDeveloper().getId());
-            updateVideoGameQuery.setString(3, videoGame.getDescription());
-            updateVideoGameQuery.setDate(4, Date.valueOf(videoGame.getReleaseDate()));
-            updateVideoGameQuery.setString(5, videoGame.getImageLink());
+            updateVideoGameQuery.setString(2, videoGame.getGenre());
+            updateVideoGameQuery.setInt(3, videoGame.getDeveloper().getId());
+            updateVideoGameQuery.setString(4, videoGame.getDescription());
+            updateVideoGameQuery.setDate(5, Date.valueOf(videoGame.getReleaseDate()));
+            updateVideoGameQuery.setString(6, videoGame.getImageLink());
             updateVideoGameQuery.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error while executing query");
@@ -161,12 +164,13 @@ public class DatabaseDAODB implements DatabaseDAO {
             getVideoGameByIdQuery.setInt(1, id);
             ResultSet rs = getVideoGameByIdQuery.executeQuery();
             while (rs.next()) {
-                videoGame = new VideoGame(rs.getInt(1),
+                 videoGame = new VideoGame(rs.getInt(1),
                         rs.getString(2),
-                        getDeveloperById(rs.getInt(3)),
-                        rs.getString(4),
-                        rs.getDate(5).toLocalDate(),
-                        rs.getString(6));
+                        rs.getString(3),
+                        getDeveloperById(rs.getInt(4)),
+                        rs.getString(5),
+                        rs.getDate(6).toLocalDate(),
+                        rs.getString(7));
             }
         } catch (SQLException e) {
             System.out.println("Error while executing query");
