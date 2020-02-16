@@ -14,11 +14,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.TilePane;
 
 
-
-public class MainController {
+public class MainController extends Controller{
 
     private DatabaseDAO dao;
     private Account accountInUse;
@@ -34,8 +35,9 @@ public class MainController {
 
     public TextField searchFieldVG, searchFieldDV;
     public ChoiceBox<GameSearchType> choiceBoxVG;
-    public ObservableList<Button> buttons=FXCollections.observableArrayList();
-    public ObservableList<VideoGame> videoGames=FXCollections.observableArrayList();
+    public TilePane tilePaneVG, tilePaneDV;
+    public ObservableList<Button> buttons = FXCollections.observableArrayList();
+    public ObservableList<VideoGame> videoGames = FXCollections.observableArrayList();
     public final ObservableList<GameSearchType> searchTypes =
             FXCollections.observableArrayList(
                     GameSearchType.All, GameSearchType.Name, GameSearchType.Genre, GameSearchType.Developer);
@@ -50,7 +52,6 @@ public class MainController {
         choiceBoxVG.setItems(searchTypes);
         choiceBoxVG.setValue(GameSearchType.All);
     }
-
 
 
     public void switchDb(ActionEvent actionEvent) {
@@ -78,23 +79,23 @@ public class MainController {
                 throw new InvalidSearchTermException("%searchException");
             }
             videoGames.clear();
-            GameSearchType selectedType=choiceBoxVG.getValue();
-            if(selectedType.equals(GameSearchType.All)){
+            GameSearchType selectedType = choiceBoxVG.getValue();
+            if (selectedType.equals(GameSearchType.All)) {
                 videoGames.setAll(dao.getVideoGames());
-            }
-            else if(selectedType.equals(GameSearchType.Name)){
+            } else if (selectedType.equals(GameSearchType.Name)) {
+
+            } else if (selectedType.equals(GameSearchType.Developer)) {
+
+            } else if (selectedType.equals(GameSearchType.Genre)) {
 
             }
-            else if(selectedType.equals(GameSearchType.Developer)){
-
+            for (VideoGame vg : videoGames) {
+                Button button = new Button();
+                button.setOnMouseClicked(event -> {
+                    openGameView(vg);
+                });
             }
-            else if(selectedType.equals(GameSearchType.Genre)){
-
-            }
-            for (VideoGame vg:videoGames) {
-                 //todo add to clickedVideoGame on mouse click
-            }
-        } catch (InvalidSearchTermException e){
+        } catch (InvalidSearchTermException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("%exception");
             alert.setHeaderText(e.getLocalizedMessage());
@@ -104,6 +105,10 @@ public class MainController {
     }
 
     public void searchDV(ActionEvent actionEvent) {
+
+    }
+
+    public void openGameView(VideoGame videoGame){
 
     }
 }

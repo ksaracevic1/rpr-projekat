@@ -31,7 +31,7 @@ public class DatabaseDAODB implements DatabaseDAO {
             if (resultSet.getInt(1) == 0) {
                 Scanner input;
                 try {
-                    input = new Scanner(new FileInputStream("korisnici.sql"));
+                    input = new Scanner(new FileInputStream("resources/db/database.sql"));
                     String sqlQuery = "";
                     while (input.hasNext()) {
                         sqlQuery += input.nextLine();
@@ -405,7 +405,9 @@ public class DatabaseDAODB implements DatabaseDAO {
     @Override
     public void close() {
         try {
-            conn.close();
+            if(conn!=null) {
+                conn.close();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

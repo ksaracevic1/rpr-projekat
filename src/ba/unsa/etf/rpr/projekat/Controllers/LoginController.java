@@ -4,6 +4,7 @@ import ba.unsa.etf.rpr.projekat.DAO.DatabaseDAODB;
 import ba.unsa.etf.rpr.projekat.DTO.Account;
 import ba.unsa.etf.rpr.projekat.DTO.AdminAccount;
 import ba.unsa.etf.rpr.projekat.Interfaces.DatabaseDAO;
+import ba.unsa.etf.rpr.projekat.UIControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +22,7 @@ import java.util.ResourceBundle;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
-public class LoginController{
+public class LoginController extends Controller{
     public TextField usernameField;
     public PasswordField passwordField;
 
@@ -32,6 +33,10 @@ public class LoginController{
 
     private DatabaseDAO dao = null;
     private ArrayList<Account> accounts=null;
+
+    public LoginController(DatabaseDAO dao){
+        this.dao=dao;
+    }
 
     @FXML
     public void initialize(){
@@ -85,7 +90,7 @@ public class LoginController{
         } else {
             viewType="userView.fxml";
         }
-        Stage stage = new Stage();
+       /* Stage stage = new Stage();
         Parent root = null;
         try {
             ResourceBundle bundle=ResourceBundle.getBundle("Language");
@@ -99,6 +104,7 @@ public class LoginController{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        stage.show();
+        stage.show();*/
+        UIControl.openWindow(getClass(),new MainController(dao,account),ResourceBundle.getBundle("Language"),viewType);
     }
 }

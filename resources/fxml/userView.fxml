@@ -8,7 +8,6 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ba.unsa.etf.rpr.projekat.Controllers.MainController"
             prefHeight="500.0" prefWidth="800.0">
 
     <top>
