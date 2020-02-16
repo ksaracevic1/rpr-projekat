@@ -16,7 +16,8 @@ import java.util.Scanner;
 public class DatabaseDAODB implements DatabaseDAO {
 
     private Connection conn;
-    private PreparedStatement getVideoGamesQuery, addVideoGameQuery, removeVideoGameQuery, updateVideoGameQuery, getVideoGameByIdQuery,
+    private PreparedStatement getVideoGamesQuery, addVideoGameQuery, removeVideoGameQuery, updateVideoGameQuery,
+            getVideoGameByIdQuery, getVideoGameByNameQuery,  getVideoGameByDeveloperQuery,  getVideoGameByGenreQuery,
             getDevelopersQuery, addDeveloperQuery, removeDeveloperQuery, updateDeveloperQuery, getDeveloperByIdQuery,
             getUsersQuery, addUserQuery, removeUserQuery, updateUserQuery, getUserByIdQuery,
             getAdminsQuery, addAdminQuery, removeAdminQuery, updateAdminQuery, getAdminByIdQuery,
@@ -81,6 +82,10 @@ public class DatabaseDAODB implements DatabaseDAO {
             updateDeveloperQuery = conn.prepareStatement("UPDATE developer SET name=?, description=?, icon=? WHERE id=?");
             updateUserQuery = conn.prepareStatement("UPDATE user_account SET username=?, password=?, avatar=? WHERE id=?");
             updateAdminQuery = conn.prepareStatement("UPDATE admin_account SET username=?, password=? WHERE id=?");
+
+            getVideoGameByDeveloperQuery=conn.prepareStatement("SELECT * FROM video_game, developer WHERE video_game.id=developer.id AND developer.name LIKE ?");
+            getVideoGameByNameQuery=conn.prepareStatement("SELECT * FROM video_game WHERE name LIKE ?");
+            getVideoGameByGenreQuery=conn.prepareStatement("SELECT * FROM video_game WHERE genre LIKE ?");
         } catch (SQLException e) {
             System.out.println("Failed to prepare statement");
         }
@@ -176,6 +181,71 @@ public class DatabaseDAODB implements DatabaseDAO {
             System.out.println("Error while executing query");
         }
         return videoGame;
+    }
+    @Override
+    public ObservableList<VideoGame> getVideoGameByName(String name) {
+        ObservableList<VideoGame> videoGames = FXCollections.observableArrayList();
+        try {
+            getVideoGameByNameQuery.setString(1,"'%"+name+"%'");
+            ResultSet rs = getVideoGameByNameQuery.executeQuery();
+            while (rs.next()) {
+                VideoGame videoGame = new VideoGame(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        getDeveloperById(rs.getInt(4)),
+                        rs.getString(5),
+                        rs.getDate(6).toLocalDate(),
+                        rs.getString(7));
+                videoGames.add(videoGame);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error while executing query");
+        }
+        return videoGames;
+    }
+
+    @Override
+    public ObservableList<VideoGame> getVideoGameByGenre(String genre) {
+        ObservableList<VideoGame> videoGames = FXCollections.observableArrayList();
+        try {
+            getVideoGameByGenreQuery.setString(1,"'%"+genre+"%'");
+            ResultSet rs = getVideoGameByGenreQuery.executeQuery();
+            while (rs.next()) {
+                VideoGame videoGame = new VideoGame(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        getDeveloperById(rs.getInt(4)),
+                        rs.getString(5),
+                        rs.getDate(6).toLocalDate(),
+                        rs.getString(7));
+                videoGames.add(videoGame);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error while executing query");
+        }
+        return videoGames;
+    }
+
+    @Override
+    public ObservableList<VideoGame> getVideoGameByDeveloper(String developer) {
+        ObservableList<VideoGame> videoGames = FXCollections.observableArrayList();
+        try {
+            getVideoGameByDeveloperQuery.setString(1,"'%"+developer+"%'");
+            ResultSet rs = getVideoGameByDeveloperQuery.executeQuery();
+            while (rs.next()) {
+                VideoGame videoGame = new VideoGame(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        getDeveloperById(rs.getInt(4)),
+                        rs.getString(5),
+                        rs.getDate(6).toLocalDate(),
+                        rs.getString(7));
+                videoGames.add(videoGame);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error while executing query");
+        }
+        return videoGames;
     }
 
     @Override

@@ -83,17 +83,17 @@ public class DatabaseDAOXML implements DatabaseDAO {
             addDeveloper(videoGame.getDeveloper());
         }
         int maxId = 0;
-        for(VideoGame v : videoGames)
+        for (VideoGame v : videoGames)
             if (v.getId() > maxId) maxId = v.getId();
-        videoGame.setId(maxId+1);
+        videoGame.setId(maxId + 1);
         videoGames.add(videoGame);
         write();
     }
 
     @Override
     public void removeVideoGame(VideoGame videoGame) {
-        for (int i=0; i<videoGames.size(); i++)
-            if (videoGames.get(i).getId().equals(videoGame.getId())){
+        for (int i = 0; i < videoGames.size(); i++)
+            if (videoGames.get(i).getId().equals(videoGame.getId())) {
                 videoGames.remove(i);
                 break;
             }
@@ -102,7 +102,7 @@ public class DatabaseDAOXML implements DatabaseDAO {
 
     @Override
     public void updateVideoGame(VideoGame videoGame) {
-        for (int i=0; i<videoGames.size(); i++)
+        for (int i = 0; i < videoGames.size(); i++)
             if (videoGames.get(i).getId().equals(videoGame.getId()))
                 videoGames.set(i, videoGame);
         write();
@@ -120,6 +120,48 @@ public class DatabaseDAOXML implements DatabaseDAO {
     }
 
     @Override
+    public ObservableList<VideoGame> getVideoGameByName(String name) {
+        ObservableList<VideoGame> videoGames = getVideoGames();
+        int size = videoGames.size();
+        for (int i = 0; i < size; i++) {
+            if (videoGames.get(i).getName().contains(name)) {
+                videoGames.remove(i);
+                i--;
+                size--;
+            }
+        }
+        return videoGames;
+    }
+
+    @Override
+    public ObservableList<VideoGame> getVideoGameByGenre(String genre) {
+        ObservableList<VideoGame> videoGames = getVideoGames();
+        int size = videoGames.size();
+        for (int i = 0; i < size; i++) {
+            if (videoGames.get(i).getGenre().contains(genre)) {
+                videoGames.remove(i);
+                i--;
+                size--;
+            }
+        }
+        return videoGames;
+    }
+
+    @Override
+    public ObservableList<VideoGame> getVideoGameByDeveloper(String developer) {
+        ObservableList<VideoGame> videoGames = getVideoGames();
+        int size = videoGames.size();
+        for (int i = 0; i < size; i++) {
+            if (videoGames.get(i).getDeveloper().getName().contains(developer)) {
+                videoGames.remove(i);
+                i--;
+                size--;
+            }
+        }
+        return videoGames;
+    }
+
+    @Override
     public ObservableList<Developer> getDevelopers() {
         return FXCollections.observableArrayList(developers);
     }
@@ -127,17 +169,17 @@ public class DatabaseDAOXML implements DatabaseDAO {
     @Override
     public void addDeveloper(Developer developer) {
         int maxId = 0;
-        for(Developer d : developers)
+        for (Developer d : developers)
             if (d.getId() > maxId) maxId = d.getId();
-        developer.setId(maxId+1);
+        developer.setId(maxId + 1);
         developers.add(developer);
         write();
     }
 
     @Override
     public void removeDeveloper(Developer developer) {
-        for (int i=0; i<developers.size(); i++)
-            if (developers.get(i).getId().equals(developer.getId())){
+        for (int i = 0; i < developers.size(); i++)
+            if (developers.get(i).getId().equals(developer.getId())) {
                 developers.remove(i);
                 break;
             }
@@ -146,7 +188,7 @@ public class DatabaseDAOXML implements DatabaseDAO {
 
     @Override
     public void updateDeveloper(Developer developer) {
-        for (int i=0; i<developers.size(); i++)
+        for (int i = 0; i < developers.size(); i++)
             if (developers.get(i).getId().equals(developer.getId()))
                 developers.set(i, developer);
         write();
@@ -172,17 +214,17 @@ public class DatabaseDAOXML implements DatabaseDAO {
     @Override
     public void addUser(UserAccount userAccount) {
         int maxId = 0;
-        for(UserAccount u : userAccounts)
+        for (UserAccount u : userAccounts)
             if (u.getId() > maxId) maxId = u.getId();
-        userAccount.setId(maxId+1);
+        userAccount.setId(maxId + 1);
         userAccounts.add(userAccount);
         write();
     }
 
     @Override
     public void removeUser(UserAccount userAccount) {
-        for (int i=0; i<userAccounts.size(); i++)
-            if (userAccounts.get(i).getId().equals(userAccount.getId())){
+        for (int i = 0; i < userAccounts.size(); i++)
+            if (userAccounts.get(i).getId().equals(userAccount.getId())) {
                 userAccounts.remove(i);
                 break;
             }
@@ -191,7 +233,7 @@ public class DatabaseDAOXML implements DatabaseDAO {
 
     @Override
     public void updateUser(UserAccount userAccount) {
-        for (int i=0; i<userAccounts.size(); i++)
+        for (int i = 0; i < userAccounts.size(); i++)
             if (userAccounts.get(i).getId().equals(userAccount.getId()))
                 userAccounts.set(i, userAccount);
         write();
@@ -216,17 +258,17 @@ public class DatabaseDAOXML implements DatabaseDAO {
     @Override
     public void addAdmin(AdminAccount adminAccount) {
         int maxId = 0;
-        for(AdminAccount a : adminAccounts)
+        for (AdminAccount a : adminAccounts)
             if (a.getId() > maxId) maxId = a.getId();
-        adminAccount.setId(maxId+1);
+        adminAccount.setId(maxId + 1);
         adminAccounts.add(adminAccount);
         write();
     }
 
     @Override
     public void removeAdmin(AdminAccount adminAccount) {
-        for (int i=0; i<adminAccounts.size(); i++)
-            if (adminAccounts.get(i).getId().equals(adminAccount.getId())){
+        for (int i = 0; i < adminAccounts.size(); i++)
+            if (adminAccounts.get(i).getId().equals(adminAccount.getId())) {
                 adminAccounts.remove(i);
                 break;
             }
@@ -235,7 +277,7 @@ public class DatabaseDAOXML implements DatabaseDAO {
 
     @Override
     public void updateAdmin(AdminAccount adminAccount) {
-        for (int i=0; i<adminAccounts.size(); i++)
+        for (int i = 0; i < adminAccounts.size(); i++)
             if (adminAccounts.get(i).getId().equals(adminAccount.getId()))
                 adminAccounts.set(i, adminAccount);
         write();

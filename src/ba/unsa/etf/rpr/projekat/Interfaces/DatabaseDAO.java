@@ -12,6 +12,9 @@ public interface DatabaseDAO {
     void removeVideoGame(VideoGame videoGame);
     void updateVideoGame(VideoGame videoGame);
     VideoGame getVideoGameById(int id);
+    ObservableList<VideoGame> getVideoGameByName(String name);
+    ObservableList<VideoGame> getVideoGameByGenre(String genre);
+    ObservableList<VideoGame> getVideoGameByDeveloper(String developer);
 
     ObservableList<Developer> getDevelopers();
     void addDeveloper(Developer developer);
