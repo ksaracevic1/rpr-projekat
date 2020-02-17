@@ -8,6 +8,7 @@ import ba.unsa.etf.rpr.projekat.DTO.UserAccount;
 import ba.unsa.etf.rpr.projekat.DTO.VideoGame;
 import ba.unsa.etf.rpr.projekat.Exceptions.InvalidSearchTermException;
 import ba.unsa.etf.rpr.projekat.Interfaces.DatabaseDAO;
+import ba.unsa.etf.rpr.projekat.JasperReport;
 import ba.unsa.etf.rpr.projekat.UIControl;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -20,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
+import net.sf.jasperreports.engine.JRException;
 
 import java.util.ResourceBundle;
 
@@ -192,5 +194,16 @@ public class MainController extends Controller {
 
     public void openDeveloperView(Developer dv) {
         UIControl.openWindow(getClass(),new DeveloperViewController(dv), ResourceBundle.getBundle("Language"),"developerDetails.fxml");
+    }
+
+    public void showReport(ActionEvent actionEvent){
+        if(dao instanceof DatabaseDAODB) {
+            DatabaseDAODB dbDao=(DatabaseDAODB)dao;
+            try {
+                new JasperReport().showReport(dbDao.getConn());
+            } catch (JRException e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 }

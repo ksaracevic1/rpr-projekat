@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -22,6 +19,9 @@
             </Menu>
             <Menu text="%help" fx:id="menuHelp">
                 <MenuItem fx:id="menuAbout" text="%about" onAction="#clickAbout"/>
+            </Menu>
+            <Menu fx:id="reportMenu" text="%reports">
+                <MenuItem fx:id="reportItem" text="%showReport" onAction="#showReport"/>
             </Menu>
             <Menu fx:id="usernameMenu" text="Anonymous">
                 <MenuItem fx:id="logoutOption" text="%logout" onAction="#clickLogout"/>

@@ -16,6 +16,15 @@ import java.util.Scanner;
 public class DatabaseDAODB implements DatabaseDAO {
 
     private Connection conn;
+
+    public Connection getConn() {
+        return conn;
+    }
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
+    }
+
     private PreparedStatement getVideoGamesQuery, addVideoGameQuery, removeVideoGameQuery, updateVideoGameQuery,
             getVideoGameByIdQuery, getVideoGameByNameQuery,  getVideoGameByDeveloperQuery,  getVideoGameByGenreQuery,
             getDevelopersQuery, addDeveloperQuery, removeDeveloperQuery, updateDeveloperQuery, getDeveloperByIdQuery,
