@@ -10,15 +10,18 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 <?import javafx.scene.control.PasswordField?>
-<GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
 
+
+<?import java.net.URL?>
+<GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@/css/style.css" />
+    </stylesheets>
     <columnConstraints>
         <ColumnConstraints />
         <ColumnConstraints />
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints />
-        <RowConstraints />
         <RowConstraints />
         <RowConstraints />
         <RowConstraints />
@@ -32,8 +35,9 @@
         <Label fx:id="errorLabel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <ButtonBar prefHeight="40" GridPane.columnSpan="2" GridPane.rowIndex="3">
             <buttons>
-                <Button fx:id="okButton" mnemonicParsing="false" text="%login" onAction="#okClick" />
-                <Button fx:id="exitButton" mnemonicParsing="false" text="%exit" onAction="#exitClick" />
+                <Button fx:id="loginButton"  text="%login" onAction="#loginClick" />
+                <Button fx:id="registerButton"  text="%register" onAction="#registerClick" />
+                <Button fx:id="exitButton"  text="%exit" onAction="#exitClick" />
             </buttons>
         </ButtonBar>
     </children>
