@@ -21,7 +21,7 @@ public class DatabaseDAODB implements DatabaseDAO {
             getDevelopersQuery, addDeveloperQuery, removeDeveloperQuery, updateDeveloperQuery, getDeveloperByIdQuery,
             getUsersQuery, addUserQuery, removeUserQuery, updateUserQuery, getUserByIdQuery,
             getAdminsQuery, addAdminQuery, removeAdminQuery, updateAdminQuery, getAdminByIdQuery,
-            getNewVideoGameIdQuery, getNewAdminIdQuery, getNewUserIdQuery, getNewDeveloperIdQuery;
+            getNewVideoGameIdQuery, getNewAdminIdQuery, getNewUserIdQuery, getNewDeveloperIdQuery,getDeveloperByNameQuery;
 
     public DatabaseDAODB() {
         try {
@@ -86,6 +86,7 @@ public class DatabaseDAODB implements DatabaseDAO {
             getVideoGameByDeveloperQuery=conn.prepareStatement("SELECT * FROM video_game, developer WHERE video_game.id=developer.id AND developer.name LIKE ?");
             getVideoGameByNameQuery=conn.prepareStatement("SELECT * FROM video_game WHERE name LIKE ?");
             getVideoGameByGenreQuery=conn.prepareStatement("SELECT * FROM video_game WHERE genre LIKE ?");
+            getDeveloperByNameQuery=conn.prepareStatement("SELECT * FROM developer WHERE name LIKE ?");
         } catch (SQLException e) {
             System.out.println("Failed to prepare statement");
         }
@@ -186,7 +187,7 @@ public class DatabaseDAODB implements DatabaseDAO {
     public ObservableList<VideoGame> getVideoGameByName(String name) {
         ObservableList<VideoGame> videoGames = FXCollections.observableArrayList();
         try {
-            getVideoGameByNameQuery.setString(1,"'%"+name+"%'");
+            getVideoGameByNameQuery.setString(1,name);
             ResultSet rs = getVideoGameByNameQuery.executeQuery();
             while (rs.next()) {
                 VideoGame videoGame = new VideoGame(rs.getInt(1),
@@ -208,7 +209,7 @@ public class DatabaseDAODB implements DatabaseDAO {
     public ObservableList<VideoGame> getVideoGameByGenre(String genre) {
         ObservableList<VideoGame> videoGames = FXCollections.observableArrayList();
         try {
-            getVideoGameByGenreQuery.setString(1,"'%"+genre+"%'");
+            getVideoGameByGenreQuery.setString(1,genre);
             ResultSet rs = getVideoGameByGenreQuery.executeQuery();
             while (rs.next()) {
                 VideoGame videoGame = new VideoGame(rs.getInt(1),
@@ -230,7 +231,7 @@ public class DatabaseDAODB implements DatabaseDAO {
     public ObservableList<VideoGame> getVideoGameByDeveloper(String developer) {
         ObservableList<VideoGame> videoGames = FXCollections.observableArrayList();
         try {
-            getVideoGameByDeveloperQuery.setString(1,"'%"+developer+"%'");
+            getVideoGameByDeveloperQuery.setString(1,developer);
             ResultSet rs = getVideoGameByDeveloperQuery.executeQuery();
             while (rs.next()) {
                 VideoGame videoGame = new VideoGame(rs.getInt(1),
@@ -322,6 +323,25 @@ public class DatabaseDAODB implements DatabaseDAO {
             System.out.println("Error while executing query");
         }
         return developer;
+    }
+
+    @Override
+    public ObservableList<Developer> getDeveloperByName(String name) {
+        ObservableList<Developer> developers = FXCollections.observableArrayList();
+        try {
+            getVideoGameByNameQuery.setString(1,name);
+            ResultSet rs = getVideoGameByNameQuery.executeQuery();
+            while (rs.next()) {
+                Developer developer = new Developer(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4));
+                developers.add(developer);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error while executing query");
+        }
+        return developers;
     }
 
     @Override

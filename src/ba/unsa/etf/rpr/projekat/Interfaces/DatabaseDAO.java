@@ -21,6 +21,7 @@ public interface DatabaseDAO {
     void removeDeveloper(Developer developer);
     void updateDeveloper(Developer developer);
     Developer getDeveloperById(int id);
+    ObservableList<Developer> getDeveloperByName(String name);
 
     ObservableList<UserAccount> getUsers();
     void addUser(UserAccount userAccount);

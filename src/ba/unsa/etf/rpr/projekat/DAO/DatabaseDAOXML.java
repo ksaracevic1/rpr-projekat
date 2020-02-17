@@ -8,11 +8,11 @@ import ba.unsa.etf.rpr.projekat.Interfaces.DatabaseDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
+import java.beans.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class DatabaseDAOXML implements DatabaseDAO {
@@ -56,6 +56,16 @@ public class DatabaseDAOXML implements DatabaseDAO {
     private void write() {
         try {
             XMLEncoder encoder = new XMLEncoder(new FileOutputStream("resources/xml/videoGames.xml"));
+            encoder.setPersistenceDelegate(LocalDate.class,
+                    new PersistenceDelegate() {
+                        @Override
+                        protected Expression instantiate(Object localDate, Encoder encdr) {
+                            return new Expression(localDate,
+                                    LocalDate.class,
+                                    "parse",
+                                    new Object[]{localDate.toString()});
+                        }
+                    });
             encoder.writeObject(videoGames);
             encoder.close();
             encoder = new XMLEncoder(new FileOutputStream("resources/xml/developers.xml"));
@@ -204,6 +214,20 @@ public class DatabaseDAOXML implements DatabaseDAO {
             }
         }
         return developer;
+    }
+
+    @Override
+    public ObservableList<Developer> getDeveloperByName(String name) {
+        ObservableList<Developer> developers = getDevelopers();
+        int size = developers.size();
+        for (int i = 0; i < size; i++) {
+            if (developers.get(i).getName().contains(name)) {
+                developers.remove(i);
+                i--;
+                size--;
+            }
+        }
+        return developers;
     }
 
     @Override
