@@ -50,9 +50,11 @@
                         <HBox prefHeight="30" alignment="CENTER_LEFT" spacing="10">
                             <Button text="%search" prefWidth="70" onAction="#searchDV"/>
                             <TextField fx:id="searchFieldDV" prefWidth="300"/>
+                            <Label text="%searchBy"/>
+                            <ChoiceBox fx:id="choiceBoxDV" prefWidth="150"/>
                         </HBox>
                         <ScrollPane fx:id="scrollPaneDV" fitToWidth="true" fitToHeight="true" prefHeight="400">
-                            <TilePane fx:id="tilePaneDV" hgap="10" vgap="10" prefTileWidth="100" prefTileHeight="100"/>
+                            <TilePane fx:id="tilePaneDV" hgap="10" vgap="10"  prefTileWidth="100" prefTileHeight="100"/>
                         </ScrollPane>
                     </VBox>
                 </Tab>
