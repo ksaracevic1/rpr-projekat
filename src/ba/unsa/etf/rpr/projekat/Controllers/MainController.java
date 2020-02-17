@@ -152,7 +152,7 @@ public class MainController extends Controller {
     public void searchDV(ActionEvent actionEvent) {
         try {
             SearchType selectedType = choiceBoxDV.getValue();
-            String search = searchFieldVG.getText();
+            String search = searchFieldDV.getText();
             if (search.equals("") && selectedType!= SearchType.All) {
                 throw new InvalidSearchTermException("Search exception");
             }
@@ -189,11 +189,19 @@ public class MainController extends Controller {
     }
 
     public void openGameView(VideoGame videoGame) {
-        UIControl.openWindow(getClass(),new GameViewController(videoGame), ResourceBundle.getBundle("Language"),"gameDetails.fxml");
+        if(accountInUse instanceof UserAccount) {
+            UIControl.openWindow(getClass(), new GameViewController(videoGame), ResourceBundle.getBundle("Language"), "gameDetails.fxml");
+        } else{
+            //todo adminview
+        }
     }
 
     public void openDeveloperView(Developer dv) {
-        UIControl.openWindow(getClass(),new DeveloperViewController(dv), ResourceBundle.getBundle("Language"),"developerDetails.fxml");
+        if(accountInUse instanceof  UserAccount) {
+            UIControl.openWindow(getClass(), new DeveloperViewController(dv), ResourceBundle.getBundle("Language"), "developerDetails.fxml");
+        } else{
+            //todo adminview
+        }
     }
 
     public void showReport(ActionEvent actionEvent){

@@ -25,7 +25,7 @@ public class JasperReport extends JFrame {
         viewer.setOpaque(true);
         viewer.setVisible(true);
         this.add(viewer);
-        this.setSize(700, 500);
+        this.setSize(1300, 800);
         this.setVisible(true);
     }
 }
