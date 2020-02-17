@@ -1,7 +1,6 @@
 package ba.unsa.etf.rpr.projekat;
 
 import ba.unsa.etf.rpr.projekat.Controllers.Controller;
-import ba.unsa.etf.rpr.projekat.Controllers.MainController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,8 +17,12 @@ public class UIControl {
         Parent root = null;
         try {
             FXMLLoader loader = new FXMLLoader(cls.getResource("/fxml/"+fxmlFile));
-            loader.setController(controller);
-            loader.setResources(bundle);
+            if(controller!=null) {
+                loader.setController(controller);
+            }
+            if(bundle!=null) {
+                loader.setResources(bundle);
+            }
             root = loader.load();
             stage.setTitle("Video Game Database");
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
