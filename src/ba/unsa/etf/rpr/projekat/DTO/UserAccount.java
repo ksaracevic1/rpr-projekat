@@ -11,6 +11,10 @@ public class UserAccount extends Account {
         this.avatarLink=avatarLink;
     }
 
+    public UserAccount(){
+        super();
+    }
+
     public String getAvatarLink() {
         return avatarLink;
     }

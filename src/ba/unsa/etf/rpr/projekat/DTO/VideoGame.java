@@ -1,29 +1,29 @@
 package ba.unsa.etf.rpr.projekat.DTO;
 
-import ba.unsa.etf.rpr.projekat.DTO.Developer;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-
 import java.time.LocalDate;
 
 public class VideoGame {
 
     private Integer id;
     private Developer developer;
-    private SimpleStringProperty genre;
-    private SimpleStringProperty name;
-    private SimpleStringProperty description;
-    private SimpleObjectProperty<LocalDate> releaseDate;
+    private String genre;
+    private String name;
+    private String description;
+    private LocalDate releaseDate;
     private String imageLink;
 
     public VideoGame(Integer id, String name,String genre ,Developer developer, String description, LocalDate releaseDate, String imageLink){
         this.id=id;
-        this.genre=new SimpleStringProperty(genre);
+        this.genre=genre;
         this.developer=developer;
-        this.name=new SimpleStringProperty(name);
-        this.description=new SimpleStringProperty(description);
-        this.releaseDate=new SimpleObjectProperty<>(releaseDate);
+        this.name=name;
+        this.description=description;
+        this.releaseDate=releaseDate;
         this.imageLink=imageLink;
+    }
+
+    public VideoGame(){
+        super();
     }
 
     public Integer getId() {
@@ -42,40 +42,36 @@ public class VideoGame {
         this.developer = developer;
     }
 
-    public String getName() {
-        return name.get();
+    public String getGenre() {
+        return genre;
     }
 
-    public SimpleStringProperty nameProperty() {
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name.set(name);
+        this.name = name;
     }
 
     public String getDescription() {
-        return description.get();
-    }
-
-    public SimpleStringProperty descriptionProperty() {
         return description;
     }
 
     public void setDescription(String description) {
-        this.description.set(description);
+        this.description = description;
     }
 
     public LocalDate getReleaseDate() {
-        return releaseDate.get();
-    }
-
-    public SimpleObjectProperty<LocalDate> releaseDateProperty() {
         return releaseDate;
     }
 
     public void setReleaseDate(LocalDate releaseDate) {
-        this.releaseDate.set(releaseDate);
+        this.releaseDate = releaseDate;
     }
 
     public String getImageLink() {
@@ -84,17 +80,5 @@ public class VideoGame {
 
     public void setImageLink(String imageLink) {
         this.imageLink = imageLink;
-    }
-
-    public String getGenre() {
-        return genre.get();
-    }
-
-    public SimpleStringProperty genreProperty() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre.set(genre);
     }
 }
