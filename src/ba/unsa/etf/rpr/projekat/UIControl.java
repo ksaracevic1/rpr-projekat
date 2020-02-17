@@ -4,8 +4,10 @@ import ba.unsa.etf.rpr.projekat.Controllers.Controller;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
@@ -25,6 +27,7 @@ public class UIControl {
             }
             root = loader.load();
             stage.setTitle("Video Game Database");
+            stage.getIcons().add(new Image(new FileInputStream("resources/img/controller.png")));
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
         } catch (IOException e) {
             e.printStackTrace();

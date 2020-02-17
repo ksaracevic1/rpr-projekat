@@ -21,11 +21,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
-import javax.imageio.IIOImage;
-import javax.imageio.ImageIO;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.ResourceBundle;
 
 
 public class MainController extends Controller {
@@ -34,7 +30,7 @@ public class MainController extends Controller {
     private Account accountInUse;
     private VideoGame clickedGame;
 
-    enum GameSearchType {
+    enum SearchType {
         All,
         Name,
         Genre,
@@ -44,15 +40,16 @@ public class MainController extends Controller {
     public BorderPane mainBorder;
     public Menu usernameMenu;
     public TextField searchFieldVG, searchFieldDV;
-    public ChoiceBox<GameSearchType> choiceBoxVG;
+    public ChoiceBox<SearchType> choiceBoxVG,choiceBoxDV;
     public TilePane tilePaneVG, tilePaneDV;
-    public ObservableList<Button> buttons = FXCollections.observableArrayList();
     public ObservableList<VideoGame> videoGames = FXCollections.observableArrayList();
     public ObservableList<Developer> developers=FXCollections.observableArrayList();
-    public final ObservableList<GameSearchType> searchTypes =
+    public final ObservableList<SearchType> searchTypesVG =
             FXCollections.observableArrayList(
-                    GameSearchType.All, GameSearchType.Name, GameSearchType.Genre, GameSearchType.Developer);
-
+                    SearchType.All, SearchType.Name, SearchType.Genre, SearchType.Developer);
+    public final ObservableList<SearchType> searchTypesDV =
+            FXCollections.observableArrayList(
+                    SearchType.All, SearchType.Name);
     public MainController(DatabaseDAO dao, Account accountInUse) {
         this.dao = dao;
         this.accountInUse = accountInUse;
@@ -60,8 +57,10 @@ public class MainController extends Controller {
 
     @FXML
     public void initialize() {
-        choiceBoxVG.setItems(searchTypes);
-        choiceBoxVG.setValue(GameSearchType.All);
+        choiceBoxVG.setItems(searchTypesVG);
+        choiceBoxVG.setValue(SearchType.All);
+        choiceBoxDV.setItems(searchTypesDV);
+        choiceBoxDV.setValue(SearchType.All);
         usernameMenu.setText(accountInUse.getUsername());
         if(accountInUse instanceof UserAccount){
             new Thread(()->{
@@ -81,12 +80,19 @@ public class MainController extends Controller {
 
     public void switchDb(ActionEvent actionEvent) {
         if (dao != null) dao.close();
+        clearUI();
         dao = new DatabaseDAODB();
     }
 
     public void switchXml(ActionEvent actionEvent) {
         if (dao != null) dao.close();
+        clearUI();
         dao = new DatabaseDAOXML();
+    }
+
+    public void clearUI(){
+        tilePaneVG.getChildren().clear();
+        tilePaneDV.getChildren().clear();
     }
 
     public void clickAbout(ActionEvent actionEvent) {
@@ -100,19 +106,20 @@ public class MainController extends Controller {
 
     public void searchVG(ActionEvent actionEvent) {
         try {
-            GameSearchType selectedType = choiceBoxVG.getValue();
+            SearchType selectedType = choiceBoxVG.getValue();
             String search = searchFieldVG.getText();
-            if (search.equals("") && selectedType!=GameSearchType.All) {
-                throw new InvalidSearchTermException("%searchException");
+            if (search.equals("") && selectedType!= SearchType.All) {
+                throw new InvalidSearchTermException("Search exception");
             }
             videoGames.clear();
-            if (selectedType.equals(GameSearchType.All)) {
+            tilePaneVG.getChildren().clear();
+            if (selectedType.equals(SearchType.All)) {
                 videoGames.setAll(dao.getVideoGames());
-            } else if (selectedType.equals(GameSearchType.Name)) {
+            } else if (selectedType.equals(SearchType.Name)) {
                 videoGames.setAll(dao.getVideoGameByName(search));
-            } else if (selectedType.equals(GameSearchType.Developer)) {
+            } else if (selectedType.equals(SearchType.Developer)) {
                 videoGames.setAll(dao.getVideoGameByDeveloper(search));
-            } else if (selectedType.equals(GameSearchType.Genre)) {
+            } else if (selectedType.equals(SearchType.Genre)) {
                 videoGames.setAll(dao.getVideoGameByGenre(search));
             }
             for (VideoGame vg : videoGames) {
@@ -133,18 +140,57 @@ public class MainController extends Controller {
             }
         } catch (InvalidSearchTermException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("%exception");
+            alert.setTitle("Exception");
             alert.setHeaderText(e.getLocalizedMessage());
-            alert.setContentText("%emptySearch");
+            alert.setContentText("Search field is empty");
             alert.showAndWait();
         }
     }
 
     public void searchDV(ActionEvent actionEvent) {
-
+        try {
+            SearchType selectedType = choiceBoxDV.getValue();
+            String search = searchFieldVG.getText();
+            if (search.equals("") && selectedType!= SearchType.All) {
+                throw new InvalidSearchTermException("Search exception");
+            }
+            developers.clear();
+            tilePaneDV.getChildren().clear();
+            if (selectedType.equals(SearchType.All)) {
+                developers.setAll(dao.getDevelopers());
+            } else if (selectedType.equals(SearchType.Name)) {
+                developers.setAll(dao.getDeveloperByName(search));
+            }
+            for (Developer dv : developers) {
+                Button button = new Button();
+                button.setOnMouseClicked(event -> {
+                    openDeveloperView(dv);
+                });
+                new Thread(()->{
+                    Image image=new Image(dv.getIconLink());
+                    Platform.runLater(()->{
+                        ImageView imageView=new ImageView(image);
+                        imageView.setFitHeight(100);
+                        imageView.setFitWidth(100);
+                        button.setGraphic(imageView);
+                        tilePaneDV.getChildren().add(button);
+                    });
+                }).start();
+            }
+        } catch (InvalidSearchTermException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Exception");
+            alert.setHeaderText(e.getLocalizedMessage());
+            alert.setContentText("Search field is empty");
+            alert.showAndWait();
+        }
     }
 
     public void openGameView(VideoGame videoGame) {
+        UIControl.openWindow(getClass(),new GameViewController(videoGame), ResourceBundle.getBundle("Language"),"gameDetails.fxml");
+    }
 
+    public void openDeveloperView(Developer dv) {
+        UIControl.openWindow(getClass(),new DeveloperViewController(dv), ResourceBundle.getBundle("Language"),"developerDetails.fxml");
     }
 }
