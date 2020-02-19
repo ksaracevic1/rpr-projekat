@@ -26,7 +26,7 @@ public class UIControl {
                 loader.setResources(bundle);
             }
             root = loader.load();
-            stage.setTitle("Video Game Database");
+            stage.setTitle(bundle.getString("vgDatabase"));
             stage.getIcons().add(new Image(new FileInputStream("resources/img/controller.png")));
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
         } catch (IOException e) {

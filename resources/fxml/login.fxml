@@ -13,6 +13,7 @@
 
 
 <?import java.net.URL?>
+<?import javafx.scene.control.ChoiceBox?>
 <GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@/css/style.css" />
@@ -30,12 +31,14 @@
         <RowConstraints />
     </rowConstraints>
     <children>
-        <Label text="%username" GridPane.rowIndex="0" />
-        <TextField fx:id="usernameField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-        <Label text="%password" GridPane.rowIndex="1" />
-        <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <Label fx:id="errorLabel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-        <ButtonBar prefHeight="40" GridPane.columnSpan="2" GridPane.rowIndex="3">
+        <Label text="%language" GridPane.rowIndex="0" />
+        <ChoiceBox fx:id="languageBox" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="0" onAction="#switchLanguage"/>
+        <Label text="%username" GridPane.rowIndex="1" />
+        <TextField fx:id="usernameField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Label text="%password" GridPane.rowIndex="2" />
+        <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Label fx:id="errorLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <ButtonBar prefHeight="40" GridPane.columnSpan="2" GridPane.rowIndex="4">
             <buttons>
                 <Button fx:id="loginButton"  text="%login" onAction="#loginClick" />
                 <Button fx:id="registerButton"  text="%register" onAction="#registerClick" />

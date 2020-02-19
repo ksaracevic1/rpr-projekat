@@ -5,22 +5,20 @@ import ba.unsa.etf.rpr.projekat.DTO.Account;
 import ba.unsa.etf.rpr.projekat.DTO.AdminAccount;
 import ba.unsa.etf.rpr.projekat.Interfaces.DatabaseDAO;
 import ba.unsa.etf.rpr.projekat.UIControl;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
 public class LoginController extends Controller {
     public TextField usernameField;
@@ -29,9 +27,13 @@ public class LoginController extends Controller {
     public Button loginButton, exitButton, registerButton;
 
     public Label errorLabel;
+    public ChoiceBox<String> languageBox;
 
     private DatabaseDAO dao = null;
     private ArrayList<Account> accounts = null;
+    private ResourceBundle bundle = ResourceBundle.getBundle("Language");
+    private ObservableList<String> languages =
+            FXCollections.observableArrayList(bundle.getString("bosnian"), bundle.getString("english"));
 
     public LoginController(DatabaseDAO dao) {
         this.dao = dao;
@@ -44,6 +46,7 @@ public class LoginController extends Controller {
         accounts = new ArrayList<Account>();
         accounts.addAll(dao.getAdmins());
         accounts.addAll(dao.getUsers());
+        languageBox.setItems(languages);
     }
 
     public void loginClick(ActionEvent actionEvent) {
@@ -74,13 +77,34 @@ public class LoginController extends Controller {
         }
     }
 
-    public void registerClick(ActionEvent actionEvent){
-        UIControl.openWindow(getClass(),new RegistrationController(dao,accounts),ResourceBundle.getBundle("Language"),"register.fxml");
+    public void registerClick(ActionEvent actionEvent) {
+        UIControl.openWindow(getClass(), new RegistrationController(dao, accounts), ResourceBundle.getBundle("Language"), "register.fxml");
     }
 
     public void exitClick(ActionEvent actionEvent) {
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
+    }
+
+    public void switchLanguage(ActionEvent actionEvent) {
+        int pos = languages.indexOf(languageBox.getValue());
+        if (pos == 0) {
+            Locale.setDefault(new Locale("bs_BA"));
+        } else if (pos == 1) {
+            Locale.setDefault(new Locale("en_US", "US"));
+        }
+        languages.clear();
+        languages.add(bundle.getString("bosnian"));
+        languages.add(bundle.getString("english"));
+        languageBox.setItems(languages);
+        Scene scene = usernameField.getScene();
+        ResourceBundle bundle = ResourceBundle.getBundle("Language");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"), bundle);
+        loader.setController(new LoginController(dao));
+        try {
+            scene.setRoot(loader.load());
+        } catch (IOException | NullPointerException e) {
+        }
     }
 
     public void openMain(Account account) {

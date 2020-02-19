@@ -30,7 +30,7 @@ public class MainController extends Controller {
 
     private DatabaseDAO dao;
     private Account accountInUse;
-    private VideoGame clickedGame;
+    private ResourceBundle bundle=ResourceBundle.getBundle("Language");
 
     enum SearchType {
         All,
@@ -111,7 +111,7 @@ public class MainController extends Controller {
             SearchType selectedType = choiceBoxVG.getValue();
             String search = searchFieldVG.getText();
             if (search.equals("") && selectedType!= SearchType.All) {
-                throw new InvalidSearchTermException("Search exception");
+                throw new InvalidSearchTermException(bundle.getString("searchException"));
             }
             videoGames.clear();
             tilePaneVG.getChildren().clear();
@@ -142,9 +142,9 @@ public class MainController extends Controller {
             }
         } catch (InvalidSearchTermException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Exception");
+            alert.setTitle(bundle.getString("exception"));
             alert.setHeaderText(e.getLocalizedMessage());
-            alert.setContentText("Search field is empty");
+            alert.setContentText(bundle.getString("emptySearch"));
             alert.showAndWait();
         }
     }
@@ -154,7 +154,7 @@ public class MainController extends Controller {
             SearchType selectedType = choiceBoxDV.getValue();
             String search = searchFieldDV.getText();
             if (search.equals("") && selectedType!= SearchType.All) {
-                throw new InvalidSearchTermException("Search exception");
+                throw new InvalidSearchTermException(bundle.getString("searchException"));
             }
             developers.clear();
             tilePaneDV.getChildren().clear();
@@ -181,27 +181,19 @@ public class MainController extends Controller {
             }
         } catch (InvalidSearchTermException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Exception");
+            alert.setTitle(bundle.getString("exception"));
             alert.setHeaderText(e.getLocalizedMessage());
-            alert.setContentText("Search field is empty");
+            alert.setContentText(bundle.getString("emptySearch"));
             alert.showAndWait();
         }
     }
 
     public void openGameView(VideoGame videoGame) {
-        if(accountInUse instanceof UserAccount) {
             UIControl.openWindow(getClass(), new GameViewController(videoGame), ResourceBundle.getBundle("Language"), "gameDetails.fxml");
-        } else{
-            //todo adminview
-        }
     }
 
     public void openDeveloperView(Developer dv) {
-        if(accountInUse instanceof  UserAccount) {
             UIControl.openWindow(getClass(), new DeveloperViewController(dv), ResourceBundle.getBundle("Language"), "developerDetails.fxml");
-        } else{
-            //todo adminview
-        }
     }
 
     public void showReport(ActionEvent actionEvent){

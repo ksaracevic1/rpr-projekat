@@ -6,7 +6,7 @@
 <?import java.net.URL?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            prefHeight="500.0" prefWidth="800.0"
+            prefHeight="500.0" prefWidth="650.0"
             fx:id="mainBorder">
     <stylesheets>
         <URL value="@/css/style.css" />
