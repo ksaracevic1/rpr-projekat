@@ -1,7 +1,5 @@
 package ba.unsa.etf.rpr.projekat.DTO;
 
-import ba.unsa.etf.rpr.projekat.DTO.Account;
-
 public class UserAccount extends Account {
 
     private String avatarLink;
