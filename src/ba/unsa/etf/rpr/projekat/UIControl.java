@@ -22,9 +22,7 @@ public class UIControl {
             if(controller!=null) {
                 loader.setController(controller);
             }
-            if(bundle!=null) {
-                loader.setResources(bundle);
-            }
+            loader.setResources(bundle);
             root = loader.load();
             stage.setTitle(bundle.getString("vgDatabase"));
             stage.getIcons().add(new Image(new FileInputStream("resources/img/controller.png")));

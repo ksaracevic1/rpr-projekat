@@ -36,7 +36,19 @@ public class MainController extends Controller {
         All,
         Name,
         Genre,
-        Developer,
+        Developer;
+
+        @Override
+        public String toString() {
+            ResourceBundle b=ResourceBundle.getBundle("Language");
+            switch(this) {
+                case All: return b.getString("all");
+                case Name: return b.getString("name");
+                case Genre: return b.getString("genre");
+                case Developer: return b.getString("developer");
+                default: throw new IllegalArgumentException();
+            }
+        }
     }
 
     public BorderPane mainBorder;
@@ -98,7 +110,7 @@ public class MainController extends Controller {
     }
 
     public void clickAbout(ActionEvent actionEvent) {
-        UIControl.openWindow(getClass(), null, null, "about.fxml");
+        UIControl.openWindow(getClass(), null, bundle, "about.fxml");
     }
 
     public void clickLogout(ActionEvent actionEvent) {
