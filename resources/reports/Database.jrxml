@@ -175,7 +175,7 @@
 									<reportElement key="" style="Column header" x="0" y="0" width="90" height="30" forecolor="#FFFFFF" uuid="775c432c-038c-45e2-b48a-3cebee870b43"/>
 									<box leftPadding="2"/>
 									<textElement>
-										<font fontName="DejaVu Sans" size="12" isBold="true"/>
+										<font fontName="Times New Roman" size="12" isBold="true"/>
 									</textElement>
 									<text><![CDATA[Name]]></text>
 								</staticText>
@@ -186,7 +186,7 @@
 									<reportElement style="Detail" x="0" y="0" width="90" height="30" uuid="2a8d8236-873a-44e5-b2a5-a8ce959e0636"/>
 									<box leftPadding="2"/>
 									<textElement>
-										<font fontName="DejaVu Sans" size="12"/>
+										<font fontName="Times New Roman" size="12"/>
 									</textElement>
 									<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 								</textField>
@@ -201,7 +201,7 @@
 									<reportElement key="" style="Column header" x="0" y="0" width="90" height="30" forecolor="#FFFFFF" uuid="f9c51239-5848-41d3-8876-1235affaf924"/>
 									<box leftPadding="2"/>
 									<textElement>
-										<font fontName="DejaVu Sans" size="12" isBold="true"/>
+										<font fontName="Times New Roman" size="12" isBold="true"/>
 									</textElement>
 									<text><![CDATA[Genre]]></text>
 								</staticText>
@@ -212,7 +212,7 @@
 									<reportElement style="Detail" x="0" y="0" width="90" height="30" uuid="0c79961f-f95a-4156-870f-aa7c75ff2cab"/>
 									<box leftPadding="2"/>
 									<textElement>
-										<font fontName="DejaVu Sans" size="12"/>
+										<font fontName="Times New Roman" size="12"/>
 									</textElement>
 									<textFieldExpression><![CDATA[$F{genre}]]></textFieldExpression>
 								</textField>
@@ -227,7 +227,7 @@
 									<reportElement key="" style="Column header" x="0" y="0" width="520" height="30" forecolor="#FFFFFF" uuid="a9d64845-ce85-4d50-a112-46c65dc46ab4"/>
 									<box leftPadding="2"/>
 									<textElement>
-										<font fontName="DejaVu Sans" size="12" isBold="true"/>
+										<font fontName="Times New Roman" size="12" isBold="true"/>
 									</textElement>
 									<text><![CDATA[Description]]></text>
 								</staticText>
@@ -238,7 +238,7 @@
 									<reportElement style="Detail" x="0" y="0" width="520" height="30" uuid="b605b05b-6b14-4f34-a376-8d74f35d0325"/>
 									<box leftPadding="2"/>
 									<textElement>
-										<font fontName="DejaVu Sans" size="12"/>
+										<font fontName="Times New Roman" size="12"/>
 									</textElement>
 									<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
 								</textField>
@@ -253,7 +253,7 @@
 									<reportElement key="" style="Column header" x="0" y="0" width="90" height="30" forecolor="#FFFFFF" uuid="e40377fa-e09f-4b59-b0ee-6b7cc9c0fc39"/>
 									<box leftPadding="2"/>
 									<textElement>
-										<font fontName="DejaVu Sans" size="12" isBold="true"/>
+										<font fontName="Times New Roman" size="12" isBold="true"/>
 									</textElement>
 									<text><![CDATA[Release date]]></text>
 								</staticText>
@@ -264,7 +264,7 @@
 									<reportElement style="Detail" x="0" y="0" width="90" height="30" uuid="27086211-f48a-4cdd-a7bd-a4dd28f1cf30"/>
 									<box leftPadding="2"/>
 									<textElement>
-										<font fontName="DejaVu Sans" size="12"/>
+										<font fontName="Times New Roman" size="12"/>
 									</textElement>
 									<textFieldExpression><![CDATA[$F{release_date}]]></textFieldExpression>
 								</textField>
