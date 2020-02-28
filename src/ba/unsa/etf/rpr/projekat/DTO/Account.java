@@ -11,12 +11,12 @@ public abstract class Account {
 
     public Account(int id, String username, String password){
         this.id=id;
-        if(!username.matches("^(?=\\S+$).{4,}$")){
+       /* if(!username.matches("^(?=\\S+$).{4,}$")){
             throw new IllegalArgumentException("Illegal username");
         }
         if(!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")){
             throw new IllegalArgumentException("Illegal password");
-        }
+        }*/
         this.username=username;
         this.password=password;
     }
