@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.PasswordField?>
-
-
-<?import java.net.URL?>
-<?import javafx.scene.control.ChoiceBox?>
-<GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@/css/style.css" />
     </stylesheets>
@@ -29,20 +20,21 @@
         <RowConstraints />
         <RowConstraints />
         <RowConstraints />
+      <RowConstraints />
     </rowConstraints>
     <children>
         <Label text="%language" GridPane.rowIndex="0" />
-        <ChoiceBox fx:id="languageBox" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="0" onAction="#switchLanguage"/>
+        <ChoiceBox fx:id="languageBox" onAction="#switchLanguage" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="0" />
         <Label text="%username" GridPane.rowIndex="1" />
         <TextField fx:id="usernameField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         <Label text="%password" GridPane.rowIndex="2" />
         <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-        <Label fx:id="errorLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <Label fx:id="errorLabel" textFill="#ff5959" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
         <ButtonBar prefHeight="40" GridPane.columnSpan="2" GridPane.rowIndex="4">
             <buttons>
-                <Button fx:id="loginButton"  text="%login" onAction="#loginClick" />
-                <Button fx:id="registerButton"  text="%register" onAction="#registerClick" />
-                <Button fx:id="exitButton"  text="%exit" onAction="#exitClick" />
+                <Button fx:id="loginButton" onAction="#loginClick" text="%login" />
+                <Button fx:id="registerButton" onAction="#registerClick" text="%register" />
+                <Button fx:id="exitButton" onAction="#exitClick" text="%exit" />
             </buttons>
         </ButtonBar>
     </children>
