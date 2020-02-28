@@ -30,17 +30,19 @@ public class RegistrationController extends Controller {
     }
 
     public void registerClick(ActionEvent actionEvent){
-        usernameField.getStyleClass().removeAll();
-        passwordField.getStyleClass().removeAll();
-        Boolean b1=usernameEmpty(),b2=passwordEmpty();
+        Boolean b1= usernameValid(),b2= passwordValid();
         if(b1){
+            usernameField.getStyleClass().removeAll("fieldCorrect");
             usernameField.getStyleClass().add("fieldIncorrect");
         } else{
+            usernameField.getStyleClass().removeAll("fieldIncorrect");
             usernameField.getStyleClass().add("fieldCorrect");
         }
         if(b2){
+            passwordField.getStyleClass().removeAll("fieldCorrect");
             passwordField.getStyleClass().add("fieldIncorrect");
         } else{
+            passwordField.getStyleClass().removeAll("fieldIncorrect");
             passwordField.getStyleClass().add("fieldCorrect");
         }
         if(!b1 && !b2){
@@ -52,11 +54,14 @@ public class RegistrationController extends Controller {
         }
     }
 
-    private Boolean usernameEmpty(){
-        return usernameField.getText().equals("");
+    //username length at least 4 characters, no whitespace allowed
+    private Boolean usernameValid(){
+        return usernameField.getText().matches("^(?=\\S+$).{4,}$");
     }
 
-    private Boolean passwordEmpty(){
-        return passwordField.getText().equals("");
+    //length at least 8 characters ,at least 1 digit, 1 lower case,
+    // 1 upper case, 1 special character, no whitespace allowed
+    private Boolean passwordValid(){
+        return passwordField.getText().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
     }
 }

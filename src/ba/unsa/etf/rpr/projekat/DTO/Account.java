@@ -1,11 +1,25 @@
 package ba.unsa.etf.rpr.projekat.DTO;
 
-import javafx.beans.property.SimpleStringProperty;
-
 public abstract class Account {
     private Integer id;
-    private SimpleStringProperty username;
-    private SimpleStringProperty password;
+    private String username;
+    private String password;
+
+    public Account(){
+        super();
+    }
+
+    public Account(int id, String username, String password){
+        this.id=id;
+        if(!username.matches("^(?=\\S+$).{4,}$")){
+            throw new IllegalArgumentException("Illegal username");
+        }
+        if(!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")){
+            throw new IllegalArgumentException("Illegal password");
+        }
+        this.username=username;
+        this.password=password;
+    }
 
     public Integer getId() {
         return id;
@@ -16,39 +30,20 @@ public abstract class Account {
     }
 
     public String getUsername() {
-        return username.get();
-    }
-
-    public SimpleStringProperty usernameProperty() {
         return username;
     }
 
     public void setUsername(String username) {
-        this.username.set(username);
+        this.username = username;
     }
 
     public String getPassword() {
-        return password.get();
-    }
-
-    public SimpleStringProperty passwordProperty() {
         return password;
     }
 
     public void setPassword(String password) {
-        this.password.set(password);
+        this.password = password;
     }
-
-    public Account(){
-        super();
-    }
-
-    public Account(int id, String username, String password){
-        this.id=id;
-        this.username=new SimpleStringProperty(username);
-        this.password=new SimpleStringProperty(password);
-    }
-
 
     @Override
     public String toString(){
