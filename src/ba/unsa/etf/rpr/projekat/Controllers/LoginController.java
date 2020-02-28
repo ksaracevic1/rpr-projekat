@@ -64,16 +64,16 @@ public class LoginController extends Controller {
                         Stage stage = (Stage) exitButton.getScene().getWindow();
                         stage.close();
                     } else {
-                        errorLabel.setText("Incorrect password");
+                        errorLabel.setText(bundle.getString("incorrectPassword"));
                     }
                     break;
                 }
             }
             if (!exists) {
-                errorLabel.setText("Incorrect username");
+                errorLabel.setText(bundle.getString("incorrectUsername"));
             }
         } else {
-            errorLabel.setText("Username or password field empty");
+            errorLabel.setText(bundle.getString("userPassField"));
         }
     }
 
