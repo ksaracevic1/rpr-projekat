@@ -1,9 +1,6 @@
 package ba.unsa.etf.rpr.projekat.DAO;
 
-import ba.unsa.etf.rpr.projekat.DTO.AdminAccount;
-import ba.unsa.etf.rpr.projekat.DTO.Developer;
-import ba.unsa.etf.rpr.projekat.DTO.UserAccount;
-import ba.unsa.etf.rpr.projekat.DTO.VideoGame;
+import ba.unsa.etf.rpr.projekat.DTO.*;
 import ba.unsa.etf.rpr.projekat.Interfaces.DatabaseDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +11,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class DatabaseDAOXML implements DatabaseDAO {
 
@@ -21,6 +20,7 @@ public class DatabaseDAOXML implements DatabaseDAO {
     private ArrayList<Developer> developers = new ArrayList<>();
     private ArrayList<UserAccount> userAccounts = new ArrayList<>();
     private ArrayList<AdminAccount> adminAccounts = new ArrayList<>();
+    private ArrayList<GameReview> gameReviews = new ArrayList<>();
 
     public DatabaseDAOXML() {
         read();
@@ -31,6 +31,7 @@ public class DatabaseDAOXML implements DatabaseDAO {
         developers.clear();
         userAccounts.clear();
         adminAccounts.clear();
+        gameReviews.clear();
         try {
             XMLDecoder decoder = new XMLDecoder(new FileInputStream("resources/xml/videoGames.xml"));
             videoGames = (ArrayList<VideoGame>) decoder.readObject();
@@ -46,6 +47,10 @@ public class DatabaseDAOXML implements DatabaseDAO {
 
             decoder = new XMLDecoder(new FileInputStream("resources/xml/adminAccounts.xml"));
             adminAccounts = (ArrayList<AdminAccount>) decoder.readObject();
+            decoder.close();
+
+            decoder = new XMLDecoder(new FileInputStream("resources/xml/gameReviews.xml"));
+            gameReviews = (ArrayList<GameReview>) decoder.readObject();
             decoder.close();
 
         } catch (FileNotFoundException e) {
@@ -76,6 +81,9 @@ public class DatabaseDAOXML implements DatabaseDAO {
             encoder.close();
             encoder = new XMLEncoder(new FileOutputStream("resources/xml/adminAccounts.xml"));
             encoder.writeObject(adminAccounts);
+            encoder.close();
+            encoder = new XMLEncoder(new FileOutputStream("resources/xml/gameReviews.xml"));
+            encoder.writeObject(gameReviews);
             encoder.close();
         } catch (FileNotFoundException e) {
             System.out.println("Unable to write file");
@@ -113,8 +121,10 @@ public class DatabaseDAOXML implements DatabaseDAO {
     @Override
     public void updateVideoGame(VideoGame videoGame) {
         for (int i = 0; i < videoGames.size(); i++)
-            if (videoGames.get(i).getId().equals(videoGame.getId()))
+            if (videoGames.get(i).getId().equals(videoGame.getId())) {
                 videoGames.set(i, videoGame);
+                break;
+            }
         write();
     }
 
@@ -199,8 +209,10 @@ public class DatabaseDAOXML implements DatabaseDAO {
     @Override
     public void updateDeveloper(Developer developer) {
         for (int i = 0; i < developers.size(); i++)
-            if (developers.get(i).getId().equals(developer.getId()))
+            if (developers.get(i).getId().equals(developer.getId())) {
                 developers.set(i, developer);
+                break;
+            }
         write();
     }
 
@@ -258,8 +270,10 @@ public class DatabaseDAOXML implements DatabaseDAO {
     @Override
     public void updateUser(UserAccount userAccount) {
         for (int i = 0; i < userAccounts.size(); i++)
-            if (userAccounts.get(i).getId().equals(userAccount.getId()))
+            if (userAccounts.get(i).getId().equals(userAccount.getId())) {
                 userAccounts.set(i, userAccount);
+                break;
+            }
         write();
     }
 
@@ -302,8 +316,10 @@ public class DatabaseDAOXML implements DatabaseDAO {
     @Override
     public void updateAdmin(AdminAccount adminAccount) {
         for (int i = 0; i < adminAccounts.size(); i++)
-            if (adminAccounts.get(i).getId().equals(adminAccount.getId()))
+            if (adminAccounts.get(i).getId().equals(adminAccount.getId())) {
                 adminAccounts.set(i, adminAccount);
+                break;
+            }
         write();
     }
 
@@ -316,6 +332,45 @@ public class DatabaseDAOXML implements DatabaseDAO {
             }
         }
         return adminAccount;
+    }
+
+    @Override
+    public Set<GameReview> getReviewsByGameId(int id) {
+        Set<GameReview> gr=new TreeSet<>();
+        gr.addAll(gameReviews);
+        return gr;
+    }
+
+    @Override
+    public void addGameReview(GameReview gameReview) {
+        gameReviews.add(gameReview);
+        write();
+    }
+
+    @Override
+    public void removeGameReview(GameReview gameReview) {
+        for (int i = 0; i < gameReviews.size(); i++) {
+            int vgId1 = gameReview.getVideoGame().getId(), vgId2=gameReviews.get(i).getVideoGame().getId();
+            int uId1=gameReview.getAccount().getId(), uId2=gameReviews.get(i).getAccount().getId();
+            if (vgId1==vgId2 && uId1==uId2) {
+                gameReviews.remove(i);
+                break;
+            }
+        }
+        write();
+    }
+
+    @Override
+    public void updateGameReview(GameReview gameReview) {
+        for (int i = 0; i < gameReviews.size(); i++) {
+            int vgId1 = gameReview.getVideoGame().getId(), vgId2=gameReviews.get(i).getVideoGame().getId();
+            int uId1=gameReview.getAccount().getId(), uId2=gameReviews.get(i).getAccount().getId();
+            if (vgId1==vgId2 && uId1==uId2) {
+                gameReviews.set(i,gameReview);
+                break;
+            }
+        }
+        write();
     }
 
     @Override

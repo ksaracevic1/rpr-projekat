@@ -2,11 +2,11 @@ package ba.unsa.etf.rpr.projekat.DTO;
 
 public class GameReview implements Comparable {
     private VideoGame videoGame;
-    private Account account;
+    private UserAccount account;
     private Integer score;
     private String comment;
 
-    public GameReview(VideoGame videoGame, Account account, Integer score, String comment) {
+    public GameReview(VideoGame videoGame, UserAccount account, Integer score, String comment) {
         this.videoGame = videoGame;
         this.account = account;
         this.score = score;
@@ -25,11 +25,11 @@ public class GameReview implements Comparable {
         this.videoGame = videoGame;
     }
 
-    public Account getAccount() {
+    public UserAccount getAccount() {
         return account;
     }
 
-    public void setAccount(Account account) {
+    public void setAccount(UserAccount account) {
         this.account = account;
     }
 
