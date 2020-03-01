@@ -7,6 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.time.format.DateTimeFormatter;
+
 public class GameViewController extends Controller {
 
     public Label gameName;
@@ -26,7 +28,8 @@ public class GameViewController extends Controller {
         gameName.setText(selectedGame.getName());
         gameGenre.setText(selectedGame.getGenre());
         gameDeveloper.setText(selectedGame.getDeveloper().getName());
-        gameReleaseDate.setText(selectedGame.getReleaseDate().toString());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+        gameReleaseDate.setText(selectedGame.getReleaseDate().format(formatter));
         gameDescription.setText(selectedGame.getDescription());
         new Thread(()->{
             Image image=new Image(selectedGame.getImageLink());
