@@ -201,7 +201,7 @@ public class MainController extends Controller {
     }
 
     public void openGameView(VideoGame videoGame) {
-            UIControl.openWindow(getClass(), new GameViewController(videoGame), ResourceBundle.getBundle("Language"), "gameDetails.fxml");
+            UIControl.openWindow(getClass(), new GameViewController(videoGame,dao), ResourceBundle.getBundle("Language"), "gameDetails.fxml");
     }
 
     public void openDeveloperView(Developer dv) {
