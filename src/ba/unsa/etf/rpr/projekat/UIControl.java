@@ -1,10 +1,12 @@
 package ba.unsa.etf.rpr.projekat;
 
 import ba.unsa.etf.rpr.projekat.Controllers.Controller;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
@@ -35,5 +37,16 @@ public class UIControl {
             e.printStackTrace();
         }
         stage.show();
+    }
+
+    public static void loadImage(ImageView imageView,String imageLink,double height, double width){
+        new Thread(()->{
+            Image image=new Image(imageLink);
+            Platform.runLater(()->{
+                imageView.setImage(image);
+                imageView.setFitHeight(height);
+                imageView.setFitWidth(width);
+            });
+        }).start();
     }
 }
