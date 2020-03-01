@@ -15,6 +15,10 @@ import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
 public class UIControl {
     public static void openWindow(Class cls,Controller controller, ResourceBundle bundle, String fxmlFile){
+        openWindow(cls,controller,bundle,fxmlFile,bundle.getString("vgDatabase"));
+    }
+
+    public static void openWindow(Class cls,Controller controller, ResourceBundle bundle, String fxmlFile, String title){
         Stage stage = new Stage();
         Parent root = null;
         try {
@@ -24,7 +28,7 @@ public class UIControl {
             }
             loader.setResources(bundle);
             root = loader.load();
-            stage.setTitle(bundle.getString("vgDatabase"));
+            stage.setTitle(title);
             stage.getIcons().add(new Image(new FileInputStream("resources/img/controller.png")));
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
         } catch (IOException e) {
