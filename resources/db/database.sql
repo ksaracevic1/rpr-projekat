@@ -37,4 +37,15 @@ CREATE TABLE IF NOT EXISTS `admin_account`
     `password` text,
     PRIMARY KEY (`id`)
 );
+
+CREATE TABLE IF NOT EXISTS `game_review`
+(
+    `game_id` integer,
+    `user_id` integer,
+    `score` integer,
+    `comment` text,
+    FOREIGN KEY (`game_id`) REFERENCES `video_game`,
+    FOREIGN KEY (`user_id`) REFERENCES `user_account`
+);
+
 COMMIT;

@@ -1,10 +1,9 @@
 package ba.unsa.etf.rpr.projekat.Interfaces;
 
-import ba.unsa.etf.rpr.projekat.DTO.AdminAccount;
-import ba.unsa.etf.rpr.projekat.DTO.Developer;
-import ba.unsa.etf.rpr.projekat.DTO.UserAccount;
-import ba.unsa.etf.rpr.projekat.DTO.VideoGame;
+import ba.unsa.etf.rpr.projekat.DTO.*;
 import javafx.collections.ObservableList;
+
+import java.util.Set;
 
 public interface DatabaseDAO {
     ObservableList<VideoGame> getVideoGames();
@@ -34,5 +33,11 @@ public interface DatabaseDAO {
     void removeAdmin(AdminAccount adminAccount);
     void updateAdmin(AdminAccount adminAccount);
     AdminAccount getAdminById(int id);
+
+    Set<GameReview> getReviewsByGameId(int id);
+    void addGameReview(GameReview gameReview);
+    void removeGameReview(GameReview gameReview);
+    void updateGameReview(GameReview gameReview);
+
     void close();
 }

@@ -1,9 +1,6 @@
 package ba.unsa.etf.rpr.projekat.DAO;
 
-import ba.unsa.etf.rpr.projekat.DTO.AdminAccount;
-import ba.unsa.etf.rpr.projekat.DTO.Developer;
-import ba.unsa.etf.rpr.projekat.DTO.UserAccount;
-import ba.unsa.etf.rpr.projekat.DTO.VideoGame;
+import ba.unsa.etf.rpr.projekat.DTO.*;
 import ba.unsa.etf.rpr.projekat.Interfaces.DatabaseDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +9,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class DatabaseDAODB implements DatabaseDAO {
 
@@ -26,46 +25,43 @@ public class DatabaseDAODB implements DatabaseDAO {
     }
 
     private PreparedStatement getVideoGamesQuery, addVideoGameQuery, removeVideoGameQuery, updateVideoGameQuery,
-            getVideoGameByIdQuery, getVideoGameByNameQuery,  getVideoGameByDeveloperQuery,  getVideoGameByGenreQuery,
+            getVideoGameByIdQuery, getVideoGameByNameQuery, getVideoGameByDeveloperQuery, getVideoGameByGenreQuery,
             getDevelopersQuery, addDeveloperQuery, removeDeveloperQuery, updateDeveloperQuery, getDeveloperByIdQuery,
             getUsersQuery, addUserQuery, removeUserQuery, updateUserQuery, getUserByIdQuery,
             getAdminsQuery, addAdminQuery, removeAdminQuery, updateAdminQuery, getAdminByIdQuery,
-            getNewVideoGameIdQuery, getNewAdminIdQuery, getNewUserIdQuery, getNewDeveloperIdQuery,getDeveloperByNameQuery;
+            getNewVideoGameIdQuery, getNewAdminIdQuery, getNewUserIdQuery, getNewDeveloperIdQuery, getDeveloperByNameQuery,
+            getReviewsByGameIdQuery, addGameReviewQuery, removeGameReviewQuery, updateGameReviewQuery;
 
     public DatabaseDAODB() {
         try {
             conn = DriverManager.getConnection("jdbc:sqlite:resources/db/database.db");
-            PreparedStatement tableAmountQuery = conn.prepareStatement("SELECT count(*) FROM sqlite_master WHERE type = 'table'");
-            ResultSet resultSet = tableAmountQuery.executeQuery();
-            resultSet.next();
-            if (resultSet.getInt(1) == 0) {
-                Scanner input;
-                try {
-                    input = new Scanner(new FileInputStream("resources/db/database.sql"));
-                    String sqlQuery = "";
-                    while (input.hasNext()) {
-                        sqlQuery += input.nextLine();
-                        if (sqlQuery.length() > 1 && sqlQuery.charAt(sqlQuery.length() - 1) == ';') {
-                            try {
-                                Statement stmt = conn.createStatement();
-                                stmt.execute(sqlQuery);
-                                sqlQuery = "";
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            }
-
+            Scanner input;
+            try {
+                input = new Scanner(new FileInputStream("resources/db/database.sql"));
+                String sqlQuery = "";
+                while (input.hasNext()) {
+                    sqlQuery += input.nextLine();
+                    if (sqlQuery.length() > 1 && sqlQuery.charAt(sqlQuery.length() - 1) == ';') {
+                        try {
+                            Statement stmt = conn.createStatement();
+                            stmt.execute(sqlQuery);
+                            sqlQuery = "";
+                        } catch (SQLException e) {
+                            e.printStackTrace();
                         }
+
                     }
-                    input.close();
-                } catch (FileNotFoundException e) {
-                    System.out.println("SQL file does not exist");
                 }
+                input.close();
+            } catch (FileNotFoundException e) {
+                System.out.println("SQL file does not exist");
             }
 
             getVideoGamesQuery = conn.prepareStatement("SELECT * FROM video_game");
             getDevelopersQuery = conn.prepareStatement("SELECT * FROM developer");
             getUsersQuery = conn.prepareStatement("SELECT * FROM user_account");
             getAdminsQuery = conn.prepareStatement("SELECT * FROM admin_account");
+            getReviewsByGameIdQuery = conn.prepareStatement("SELECT * FROM game_review WHERE game_id=?");
 
             getVideoGameByIdQuery = conn.prepareStatement("SELECT * FROM video_game WHERE id=?");
             getDeveloperByIdQuery = conn.prepareStatement("SELECT * FROM developer WHERE id=?");
@@ -76,26 +72,30 @@ public class DatabaseDAODB implements DatabaseDAO {
             getNewDeveloperIdQuery = conn.prepareStatement("SELECT MAX(id)+1 FROM developer");
             getNewUserIdQuery = conn.prepareStatement("SELECT MAX(id)+1 FROM user_account");
             getNewAdminIdQuery = conn.prepareStatement("SELECT MAX(id)+1 FROM admin_account");
+            getNewAdminIdQuery = conn.prepareStatement("SELECT MAX(id)+1 FROM admin_account");
 
             addVideoGameQuery = conn.prepareStatement("INSERT INTO video_game VALUES(?,?,?,?,?,?,?)");
             addDeveloperQuery = conn.prepareStatement("INSERT INTO developer VALUES(?,?,?,?)");
             addUserQuery = conn.prepareStatement("INSERT INTO user_account VALUES(?,?,?,?)");
             addAdminQuery = conn.prepareStatement("INSERT INTO admin_account VALUES(?,?,?)");
+            addGameReviewQuery = conn.prepareStatement("INSERT INTO game_review VALUES(?,?,?,?)");
 
             removeVideoGameQuery = conn.prepareStatement("DELETE FROM video_game WHERE id=?");
             removeDeveloperQuery = conn.prepareStatement("DELETE FROM developer WHERE id=?");
             removeUserQuery = conn.prepareStatement("DELETE FROM user_account WHERE id=?");
             removeAdminQuery = conn.prepareStatement("DELETE FROM admin_account WHERE id=?");
+            removeGameReviewQuery = conn.prepareStatement("DELETE FROM game_review WHERE game_id=? AND user_id=?");
 
             updateVideoGameQuery = conn.prepareStatement("UPDATE video_game SET name=?, dev_id=?, genre=?, description=?, release_date=?, image_link=? WHERE id=?");
             updateDeveloperQuery = conn.prepareStatement("UPDATE developer SET name=?, description=?, icon=? WHERE id=?");
             updateUserQuery = conn.prepareStatement("UPDATE user_account SET username=?, password=?, avatar=? WHERE id=?");
             updateAdminQuery = conn.prepareStatement("UPDATE admin_account SET username=?, password=? WHERE id=?");
+            updateGameReviewQuery = conn.prepareStatement("UPDATE game_review SET score=?, comment=? WHERE game_id=? AND user_id=?");
 
-            getVideoGameByDeveloperQuery=conn.prepareStatement("SELECT * FROM video_game, developer WHERE video_game.id=developer.id AND developer.name LIKE ?");
-            getVideoGameByNameQuery=conn.prepareStatement("SELECT * FROM video_game WHERE name LIKE ?");
-            getVideoGameByGenreQuery=conn.prepareStatement("SELECT * FROM video_game WHERE genre LIKE ?");
-            getDeveloperByNameQuery=conn.prepareStatement("SELECT * FROM developer WHERE name LIKE ?");
+            getVideoGameByDeveloperQuery = conn.prepareStatement("SELECT * FROM video_game, developer WHERE video_game.id=developer.id AND developer.name LIKE ?");
+            getVideoGameByNameQuery = conn.prepareStatement("SELECT * FROM video_game WHERE name LIKE ?");
+            getVideoGameByGenreQuery = conn.prepareStatement("SELECT * FROM video_game WHERE genre LIKE ?");
+            getDeveloperByNameQuery = conn.prepareStatement("SELECT * FROM developer WHERE name LIKE ?");
         } catch (SQLException e) {
             System.out.println("Failed to prepare statement");
         }
@@ -138,7 +138,7 @@ public class DatabaseDAODB implements DatabaseDAO {
             addVideoGameQuery.setInt(4, videoGame.getDeveloper().getId());
             addVideoGameQuery.setString(5, videoGame.getDescription());
             addVideoGameQuery.setDate(6, Date.valueOf(videoGame.getReleaseDate()));
-            addVideoGameQuery.setString(7,videoGame.getImageLink());
+            addVideoGameQuery.setString(7, videoGame.getImageLink());
             addVideoGameQuery.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error while executing query");
@@ -179,7 +179,7 @@ public class DatabaseDAODB implements DatabaseDAO {
             getVideoGameByIdQuery.setInt(1, id);
             ResultSet rs = getVideoGameByIdQuery.executeQuery();
             while (rs.next()) {
-                 videoGame = new VideoGame(rs.getInt(1),
+                videoGame = new VideoGame(rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
                         getDeveloperById(rs.getInt(4)),
@@ -192,11 +192,12 @@ public class DatabaseDAODB implements DatabaseDAO {
         }
         return videoGame;
     }
+
     @Override
     public ObservableList<VideoGame> getVideoGameByName(String name) {
         ObservableList<VideoGame> videoGames = FXCollections.observableArrayList();
         try {
-            getVideoGameByNameQuery.setString(1,name);
+            getVideoGameByNameQuery.setString(1, name);
             ResultSet rs = getVideoGameByNameQuery.executeQuery();
             while (rs.next()) {
                 VideoGame videoGame = new VideoGame(rs.getInt(1),
@@ -218,7 +219,7 @@ public class DatabaseDAODB implements DatabaseDAO {
     public ObservableList<VideoGame> getVideoGameByGenre(String genre) {
         ObservableList<VideoGame> videoGames = FXCollections.observableArrayList();
         try {
-            getVideoGameByGenreQuery.setString(1,genre);
+            getVideoGameByGenreQuery.setString(1, genre);
             ResultSet rs = getVideoGameByGenreQuery.executeQuery();
             while (rs.next()) {
                 VideoGame videoGame = new VideoGame(rs.getInt(1),
@@ -240,7 +241,7 @@ public class DatabaseDAODB implements DatabaseDAO {
     public ObservableList<VideoGame> getVideoGameByDeveloper(String developer) {
         ObservableList<VideoGame> videoGames = FXCollections.observableArrayList();
         try {
-            getVideoGameByDeveloperQuery.setString(1,developer);
+            getVideoGameByDeveloperQuery.setString(1, developer);
             ResultSet rs = getVideoGameByDeveloperQuery.executeQuery();
             while (rs.next()) {
                 VideoGame videoGame = new VideoGame(rs.getInt(1),
@@ -338,8 +339,8 @@ public class DatabaseDAODB implements DatabaseDAO {
     public ObservableList<Developer> getDeveloperByName(String name) {
         ObservableList<Developer> developers = FXCollections.observableArrayList();
         try {
-            getVideoGameByNameQuery.setString(1,name);
-            ResultSet rs = getVideoGameByNameQuery.executeQuery();
+            getDeveloperByNameQuery.setString(1, name);
+            ResultSet rs = getDeveloperByNameQuery.executeQuery();
             while (rs.next()) {
                 Developer developer = new Developer(rs.getInt(1),
                         rs.getString(2),
@@ -413,7 +414,7 @@ public class DatabaseDAODB implements DatabaseDAO {
 
     @Override
     public UserAccount getUserById(int id) {
-        UserAccount userAccount=null;
+        UserAccount userAccount = null;
         try {
             getUserByIdQuery.setInt(1, id);
             ResultSet rs = getUserByIdQuery.executeQuery();
@@ -486,12 +487,12 @@ public class DatabaseDAODB implements DatabaseDAO {
 
     @Override
     public AdminAccount getAdminById(int id) {
-        AdminAccount adminAccount=null;
+        AdminAccount adminAccount = null;
         try {
             getAdminByIdQuery.setInt(1, id);
             ResultSet rs = getAdminByIdQuery.executeQuery();
             while (rs.next()) {
-                 adminAccount = new AdminAccount(rs.getInt(1),
+                adminAccount = new AdminAccount(rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3));
             }
@@ -502,9 +503,67 @@ public class DatabaseDAODB implements DatabaseDAO {
     }
 
     @Override
+    public Set<GameReview> getReviewsByGameId(int id) {
+        Set<GameReview> gameReviews=new TreeSet<>();
+        try {
+            getReviewsByGameIdQuery.setInt(1, id);
+            ResultSet rs = getReviewsByGameIdQuery.executeQuery();
+            while (rs.next()) {
+                VideoGame videoGame=getVideoGameById(rs.getInt(1));
+                UserAccount userAccount=getUserById(rs.getInt(2));
+                GameReview gameReview = new GameReview(videoGame,
+                        userAccount,
+                        rs.getInt(3),
+                        rs.getString(4));
+                gameReviews.add(gameReview);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error while executing query");
+        }
+        return gameReviews;
+    }
+
+    @Override
+    public void addGameReview(GameReview gameReview) {
+        try {
+            addGameReviewQuery.setInt(1, gameReview.getVideoGame().getId());
+            addGameReviewQuery.setInt(2, gameReview.getAccount().getId());
+            addGameReviewQuery.setInt(3,gameReview.getScore());
+            addGameReviewQuery.setString(4, gameReview.getComment());
+            addGameReviewQuery.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error while executing query");
+        }
+    }
+
+    @Override
+    public void removeGameReview(GameReview gameReview) {
+        try {
+            removeGameReviewQuery.setInt(1, gameReview.getVideoGame().getId());
+            removeGameReviewQuery.setInt(2, gameReview.getAccount().getId());
+            removeGameReviewQuery.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error while executing query");
+        }
+    }
+
+    @Override
+    public void updateGameReview(GameReview gameReview) {
+        try {
+            updateGameReviewQuery.setInt(3, gameReview.getVideoGame().getId());
+            updateGameReviewQuery.setInt(4, gameReview.getAccount().getId());
+            updateGameReviewQuery.setInt(1, gameReview.getScore());
+            updateGameReviewQuery.setString(2,gameReview.getComment());
+            updateGameReviewQuery.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error while executing query");
+        }
+    }
+
+    @Override
     public void close() {
         try {
-            if(conn!=null) {
+            if (conn != null) {
                 conn.close();
             }
         } catch (SQLException e) {
