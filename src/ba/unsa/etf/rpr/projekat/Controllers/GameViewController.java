@@ -47,6 +47,14 @@ public class GameViewController extends Controller {
         this.accountInUse=accountInUse;
     }
 
+    public GameReview getAccountReview() {
+        return accountReview;
+    }
+
+    public void setAccountReview(GameReview accountReview) {
+        this.accountReview = accountReview;
+    }
+
     @FXML
     public void initialize() {
         gameName.setText(selectedGame.getName());
@@ -88,7 +96,7 @@ public class GameViewController extends Controller {
         reviewListView.setItems(gameReviews);
     }
 
-    private void setButtonUpdate(){
+    public void setButtonUpdate(){
         reviewButton.setText(bundle.getString("updateReview"));
         try {
             reviewButtonImageView.setImage(new Image(new FileInputStream("resources/img/update.png")));
@@ -100,7 +108,7 @@ public class GameViewController extends Controller {
         });
     }
 
-    private void setButtonWrite(){
+    public void setButtonWrite(){
         reviewButton.setText(bundle.getString("writeReview"));
         try {
             reviewButtonImageView.setImage(new Image(new FileInputStream("resources/img/write.png")));
@@ -113,10 +121,10 @@ public class GameViewController extends Controller {
     }
 
     private void updateReview(){
-
+        UIControl.openWindow(getClass(),new ReviewController(gameReviews,accountReview,dao,this),bundle,"updateReview.fxml");
     }
 
     private void writeReview(){
-
+        UIControl.openWindow(getClass(),new ReviewController(gameReviews,selectedGame,accountInUse,dao,this),bundle,"writeReview.fxml");
     }
 }
