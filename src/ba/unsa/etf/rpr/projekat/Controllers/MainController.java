@@ -29,8 +29,8 @@ import java.util.ResourceBundle;
 public class MainController extends Controller {
 
     private DatabaseDAO dao;
-    private Account accountInUse;
-    private ResourceBundle bundle=ResourceBundle.getBundle("Language");
+    private UserAccount accountInUse;
+    private ResourceBundle bundle = ResourceBundle.getBundle("Language");
 
     enum SearchType {
         All,
@@ -40,13 +40,18 @@ public class MainController extends Controller {
 
         @Override
         public String toString() {
-            ResourceBundle b=ResourceBundle.getBundle("Language");
-            switch(this) {
-                case All: return b.getString("all");
-                case Name: return b.getString("name");
-                case Genre: return b.getString("genre");
-                case Developer: return b.getString("developer");
-                default: throw new IllegalArgumentException();
+            ResourceBundle b = ResourceBundle.getBundle("Language");
+            switch (this) {
+                case All:
+                    return b.getString("all");
+                case Name:
+                    return b.getString("name");
+                case Genre:
+                    return b.getString("genre");
+                case Developer:
+                    return b.getString("developer");
+                default:
+                    throw new IllegalArgumentException();
             }
         }
     }
@@ -54,17 +59,18 @@ public class MainController extends Controller {
     public BorderPane mainBorder;
     public Menu usernameMenu;
     public TextField searchFieldVG, searchFieldDV;
-    public ChoiceBox<SearchType> choiceBoxVG,choiceBoxDV;
+    public ChoiceBox<SearchType> choiceBoxVG, choiceBoxDV;
     public TilePane tilePaneVG, tilePaneDV;
     public ObservableList<VideoGame> videoGames = FXCollections.observableArrayList();
-    public ObservableList<Developer> developers=FXCollections.observableArrayList();
+    public ObservableList<Developer> developers = FXCollections.observableArrayList();
     public final ObservableList<SearchType> searchTypesVG =
             FXCollections.observableArrayList(
                     SearchType.All, SearchType.Name, SearchType.Genre, SearchType.Developer);
     public final ObservableList<SearchType> searchTypesDV =
             FXCollections.observableArrayList(
                     SearchType.All, SearchType.Name);
-    public MainController(DatabaseDAO dao, Account accountInUse) {
+
+    public MainController(DatabaseDAO dao, UserAccount accountInUse) {
         this.dao = dao;
         this.accountInUse = accountInUse;
     }
@@ -76,18 +82,16 @@ public class MainController extends Controller {
         choiceBoxDV.setItems(searchTypesDV);
         choiceBoxDV.setValue(SearchType.All);
         usernameMenu.setText(accountInUse.getUsername());
-        if(accountInUse instanceof UserAccount){
-            new Thread(()->{
-                UserAccount ua=(UserAccount) accountInUse;
-                Image image=new Image(ua.getAvatarLink());
-                Platform.runLater(()->{
-                    ImageView imageView=new ImageView(image);
-                    imageView.setFitWidth(15);
-                    imageView.setFitHeight(15);
-                    usernameMenu.setGraphic(imageView);
-                });
-            }).start();
-        }
+        new Thread(() -> {
+            UserAccount ua = (UserAccount) accountInUse;
+            Image image = new Image(ua.getAvatarLink());
+            Platform.runLater(() -> {
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(15);
+                imageView.setFitHeight(15);
+                usernameMenu.setGraphic(imageView);
+            });
+        }).start();
 
     }
 
@@ -104,7 +108,7 @@ public class MainController extends Controller {
         dao = new DatabaseDAOXML();
     }
 
-    public void clearUI(){
+    public void clearUI() {
         tilePaneVG.getChildren().clear();
         tilePaneDV.getChildren().clear();
     }
@@ -122,7 +126,7 @@ public class MainController extends Controller {
         try {
             SearchType selectedType = choiceBoxVG.getValue();
             String search = searchFieldVG.getText();
-            if (search.equals("") && selectedType!= SearchType.All) {
+            if (search.equals("") && selectedType != SearchType.All) {
                 throw new InvalidSearchTermException(bundle.getString("searchException"));
             }
             videoGames.clear();
@@ -141,10 +145,10 @@ public class MainController extends Controller {
                 button.setOnMouseClicked(event -> {
                     openGameView(vg);
                 });
-                new Thread(()->{
-                    Image image=new Image(vg.getImageLink());
-                    Platform.runLater(()->{
-                        ImageView imageView=new ImageView(image);
+                new Thread(() -> {
+                    Image image = new Image(vg.getImageLink());
+                    Platform.runLater(() -> {
+                        ImageView imageView = new ImageView(image);
                         imageView.setFitHeight(100);
                         imageView.setFitWidth(100);
                         button.setGraphic(imageView);
@@ -165,7 +169,7 @@ public class MainController extends Controller {
         try {
             SearchType selectedType = choiceBoxDV.getValue();
             String search = searchFieldDV.getText();
-            if (search.equals("") && selectedType!= SearchType.All) {
+            if (search.equals("") && selectedType != SearchType.All) {
                 throw new InvalidSearchTermException(bundle.getString("searchException"));
             }
             developers.clear();
@@ -180,10 +184,10 @@ public class MainController extends Controller {
                 button.setOnMouseClicked(event -> {
                     openDeveloperView(dv);
                 });
-                new Thread(()->{
-                    Image image=new Image(dv.getIconLink());
-                    Platform.runLater(()->{
-                        ImageView imageView=new ImageView(image);
+                new Thread(() -> {
+                    Image image = new Image(dv.getIconLink());
+                    Platform.runLater(() -> {
+                        ImageView imageView = new ImageView(image);
                         imageView.setFitHeight(100);
                         imageView.setFitWidth(100);
                         button.setGraphic(imageView);
@@ -201,16 +205,16 @@ public class MainController extends Controller {
     }
 
     public void openGameView(VideoGame videoGame) {
-            UIControl.openWindow(getClass(), new GameViewController(videoGame,dao), ResourceBundle.getBundle("Language"), "gameDetails.fxml");
+        UIControl.openWindow(getClass(), new GameViewController(videoGame, dao, accountInUse), ResourceBundle.getBundle("Language"), "gameDetails.fxml");
     }
 
     public void openDeveloperView(Developer dv) {
-            UIControl.openWindow(getClass(), new DeveloperViewController(dv), ResourceBundle.getBundle("Language"), "developerDetails.fxml");
+        UIControl.openWindow(getClass(), new DeveloperViewController(dv), ResourceBundle.getBundle("Language"), "developerDetails.fxml");
     }
 
-    public void showReport(ActionEvent actionEvent){
-        if(dao instanceof DatabaseDAODB) {
-            DatabaseDAODB dbDao=(DatabaseDAODB)dao;
+    public void showReport(ActionEvent actionEvent) {
+        if (dao instanceof DatabaseDAODB) {
+            DatabaseDAODB dbDao = (DatabaseDAODB) dao;
             try {
                 new JasperReport().showReport(dbDao.getConn());
             } catch (JRException e1) {

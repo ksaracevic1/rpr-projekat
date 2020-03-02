@@ -1,17 +1,17 @@
 package ba.unsa.etf.rpr.projekat.Controllers;
 
 import ba.unsa.etf.rpr.projekat.DTO.GameReview;
+import ba.unsa.etf.rpr.projekat.DTO.UserAccount;
 import ba.unsa.etf.rpr.projekat.DTO.VideoGame;
 import ba.unsa.etf.rpr.projekat.Interfaces.DatabaseDAO;
 import ba.unsa.etf.rpr.projekat.UIControl;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 
@@ -28,15 +28,19 @@ public class GameViewController extends Controller {
     public Label gameReleaseDate;
     public Label gameDescription;
     public ImageView gameImage;
+    public Button reviewButton;
     public ListView<GameReview> reviewListView;
     private VideoGame selectedGame;
+    private UserAccount accountInUse;
     private DatabaseDAO dao;
+    private Boolean hasReview=false;
     private ObservableList<GameReview> gameReviews = FXCollections.observableArrayList();
     private ResourceBundle bundle=ResourceBundle.getBundle("Language");
 
-    public GameViewController(VideoGame videoGame, DatabaseDAO dao) {
+    public GameViewController(VideoGame videoGame, DatabaseDAO dao,UserAccount accountInUse) {
         this.selectedGame = videoGame;
         this.dao = dao;
+        this.accountInUse=accountInUse;
     }
 
     @FXML

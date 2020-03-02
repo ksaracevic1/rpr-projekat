@@ -3,6 +3,7 @@ package ba.unsa.etf.rpr.projekat.Controllers;
 import ba.unsa.etf.rpr.projekat.DAO.DatabaseDAODB;
 import ba.unsa.etf.rpr.projekat.DTO.Account;
 import ba.unsa.etf.rpr.projekat.DTO.AdminAccount;
+import ba.unsa.etf.rpr.projekat.DTO.UserAccount;
 import ba.unsa.etf.rpr.projekat.Interfaces.DatabaseDAO;
 import ba.unsa.etf.rpr.projekat.UIControl;
 import javafx.collections.FXCollections;
@@ -112,8 +113,9 @@ public class LoginController extends Controller {
         if (account instanceof AdminAccount) {
             viewType = "adminView.fxml";
         } else {
+            UserAccount userAccount=(UserAccount)account;
             viewType = "userView.fxml";
+            UIControl.openWindow(getClass(), new MainController(dao, userAccount), ResourceBundle.getBundle("Language"), viewType);
         }
-        UIControl.openWindow(getClass(), new MainController(dao, account), ResourceBundle.getBundle("Language"), viewType);
     }
 }
