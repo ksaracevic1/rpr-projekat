@@ -85,12 +85,17 @@
             <Font name="Arial" size="18.0"/>
         </font>
     </Label>
-    <Label text="%gameReviewsColon" GridPane.columnIndex="0" GridPane.rowIndex="7">
+    <Button fx:id="reviewButton" GridPane.rowIndex="7" GridPane.columnIndex="0">
+        <font>
+            <Font name="Arial" size="18.0"/>
+        </font>
+    </Button>
+    <Label text="%gameReviewsColon" GridPane.columnIndex="0" GridPane.rowIndex="8">
         <font>
             <Font name="Arial" size="18.0"/>
         </font>
     </Label>
-    <ScrollPane fx:id="reviewScrollPane" GridPane.rowIndex="8" GridPane.columnIndex="0" GridPane.columnSpan="3" fitToWidth="true" prefWidth="Infinity" minWidth="500">
+    <ScrollPane fx:id="reviewScrollPane" GridPane.rowIndex="9" GridPane.columnIndex="0" GridPane.columnSpan="3" fitToWidth="true" prefWidth="Infinity" minWidth="500">
     <ListView fx:id="reviewListView" />
     </ScrollPane>
 </GridPane>
