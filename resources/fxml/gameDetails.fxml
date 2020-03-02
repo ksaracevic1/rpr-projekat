@@ -87,10 +87,10 @@
     </Label>
     <Button fx:id="reviewButton" GridPane.rowIndex="7" GridPane.columnIndex="0">
         <font>
-            <Font name="Arial" size="18.0"/>
+            <Font name="Arial" size="16.0"/>
         </font>
     </Button>
-    <Label text="%gameReviewsColon" GridPane.columnIndex="0" GridPane.rowIndex="8">
+    <Label text="%gameReviewsColon" alignment="BOTTOM_LEFT" minHeight="50" GridPane.columnIndex="0" GridPane.rowIndex="8">
         <font>
             <Font name="Arial" size="18.0"/>
         </font>
