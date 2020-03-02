@@ -35,6 +35,7 @@ public interface DatabaseDAO {
     AdminAccount getAdminById(int id);
 
     Set<GameReview> getReviewsByGameId(int id);
+    GameReview getReviewByUserGame(VideoGame videoGame, UserAccount userAccount);
     void addGameReview(GameReview gameReview);
     void removeGameReview(GameReview gameReview);
     void updateGameReview(GameReview gameReview);

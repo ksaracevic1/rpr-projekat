@@ -30,7 +30,7 @@ public class DatabaseDAODB implements DatabaseDAO {
             getUsersQuery, addUserQuery, removeUserQuery, updateUserQuery, getUserByIdQuery,
             getAdminsQuery, addAdminQuery, removeAdminQuery, updateAdminQuery, getAdminByIdQuery,
             getNewVideoGameIdQuery, getNewAdminIdQuery, getNewUserIdQuery, getNewDeveloperIdQuery, getDeveloperByNameQuery,
-            getReviewsByGameIdQuery, addGameReviewQuery, removeGameReviewQuery, updateGameReviewQuery;
+            getReviewsByGameIdQuery, addGameReviewQuery, removeGameReviewQuery, updateGameReviewQuery, getReviewByUserGameQuery;
 
     public DatabaseDAODB() {
         try {
@@ -96,6 +96,7 @@ public class DatabaseDAODB implements DatabaseDAO {
             getVideoGameByNameQuery = conn.prepareStatement("SELECT * FROM video_game WHERE name LIKE ?");
             getVideoGameByGenreQuery = conn.prepareStatement("SELECT * FROM video_game WHERE genre LIKE ?");
             getDeveloperByNameQuery = conn.prepareStatement("SELECT * FROM developer WHERE name LIKE ?");
+            getReviewByUserGameQuery = conn.prepareStatement("SELECT * FROM game_review WHERE game_id=? AND user_id=?");
         } catch (SQLException e) {
             System.out.println("Failed to prepare statement");
         }
@@ -504,13 +505,13 @@ public class DatabaseDAODB implements DatabaseDAO {
 
     @Override
     public Set<GameReview> getReviewsByGameId(int id) {
-        Set<GameReview> gameReviews=new TreeSet<>();
+        Set<GameReview> gameReviews = new TreeSet<>();
         try {
             getReviewsByGameIdQuery.setInt(1, id);
             ResultSet rs = getReviewsByGameIdQuery.executeQuery();
             while (rs.next()) {
-                VideoGame videoGame=getVideoGameById(rs.getInt(1));
-                UserAccount userAccount=getUserById(rs.getInt(2));
+                VideoGame videoGame = getVideoGameById(rs.getInt(1));
+                UserAccount userAccount = getUserById(rs.getInt(2));
                 GameReview gameReview = new GameReview(videoGame,
                         userAccount,
                         rs.getInt(3),
@@ -524,11 +525,32 @@ public class DatabaseDAODB implements DatabaseDAO {
     }
 
     @Override
+    public GameReview getReviewByUserGame(VideoGame videoGame, UserAccount userAccount) {
+        GameReview gameReview = null;
+        try {
+            getReviewByUserGameQuery.setInt(1, videoGame.getId());
+            getReviewByUserGameQuery.setInt(2, userAccount.getId());
+            ResultSet rs = getReviewByUserGameQuery.executeQuery();
+            while (rs.next()) {
+                gameReview = new GameReview(
+                        getVideoGameById(rs.getInt(1)),
+                        getUserById(rs.getInt(2)),
+                        rs.getInt(3),
+                        rs.getString(4)
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("Error while executing query");
+        }
+        return gameReview;
+    }
+
+    @Override
     public void addGameReview(GameReview gameReview) {
         try {
             addGameReviewQuery.setInt(1, gameReview.getVideoGame().getId());
             addGameReviewQuery.setInt(2, gameReview.getAccount().getId());
-            addGameReviewQuery.setInt(3,gameReview.getScore());
+            addGameReviewQuery.setInt(3, gameReview.getScore());
             addGameReviewQuery.setString(4, gameReview.getComment());
             addGameReviewQuery.executeUpdate();
         } catch (SQLException e) {
@@ -553,7 +575,7 @@ public class DatabaseDAODB implements DatabaseDAO {
             updateGameReviewQuery.setInt(3, gameReview.getVideoGame().getId());
             updateGameReviewQuery.setInt(4, gameReview.getAccount().getId());
             updateGameReviewQuery.setInt(1, gameReview.getScore());
-            updateGameReviewQuery.setString(2,gameReview.getComment());
+            updateGameReviewQuery.setString(2, gameReview.getComment());
             updateGameReviewQuery.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error while executing query");
