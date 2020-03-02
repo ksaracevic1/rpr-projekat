@@ -1,9 +1,26 @@
 package ba.unsa.etf.rpr.projekat.DTO;
 
+import java.util.Objects;
+
 public abstract class Account {
     private Integer id;
     private String username;
     private String password;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Account)) return false;
+        Account account = (Account) o;
+        return getId().equals(account.getId()) &&
+                getUsername().equals(account.getUsername()) &&
+                getPassword().equals(account.getPassword());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getUsername(), getPassword());
+    }
 
     public Account(){
         super();

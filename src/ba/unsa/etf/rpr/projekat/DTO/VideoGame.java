@@ -1,6 +1,7 @@
 package ba.unsa.etf.rpr.projekat.DTO;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class VideoGame {
 
@@ -80,5 +81,24 @@ public class VideoGame {
 
     public void setImageLink(String imageLink) {
         this.imageLink = imageLink;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof VideoGame)) return false;
+        VideoGame videoGame = (VideoGame) o;
+        return getId().equals(videoGame.getId()) &&
+                getDeveloper().equals(videoGame.getDeveloper()) &&
+                getGenre().equals(videoGame.getGenre()) &&
+                getName().equals(videoGame.getName()) &&
+                getDescription().equals(videoGame.getDescription()) &&
+                getReleaseDate().equals(videoGame.getReleaseDate()) &&
+                getImageLink().equals(videoGame.getImageLink());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getDeveloper(), getGenre(), getName(), getDescription(), getReleaseDate(), getImageLink());
     }
 }

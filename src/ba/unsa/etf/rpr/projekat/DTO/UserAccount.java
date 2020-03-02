@@ -1,5 +1,7 @@
 package ba.unsa.etf.rpr.projekat.DTO;
 
+import java.util.Objects;
+
 public class UserAccount extends Account {
 
     private String avatarLink;
@@ -22,4 +24,16 @@ public class UserAccount extends Account {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserAccount)) return false;
+        UserAccount that = (UserAccount) o;
+        return getAvatarLink().equals(that.avatarLink);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAvatarLink());
+    }
 }

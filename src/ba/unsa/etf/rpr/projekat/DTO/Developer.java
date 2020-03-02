@@ -1,5 +1,7 @@
 package ba.unsa.etf.rpr.projekat.DTO;
 
+import java.util.Objects;
+
 public class Developer {
     private Integer id;
     private String name;
@@ -52,5 +54,21 @@ public class Developer {
     @Override
     public String toString(){
         return getName();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Developer)) return false;
+        Developer developer = (Developer) o;
+        return getId().equals(developer.getId()) &&
+                getName().equals(developer.getName()) &&
+                getDescription().equals(developer.getDescription()) &&
+                getIconLink().equals(developer.getIconLink());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getDescription(), getIconLink());
     }
 }

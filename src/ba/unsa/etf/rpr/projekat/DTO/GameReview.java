@@ -1,5 +1,7 @@
 package ba.unsa.etf.rpr.projekat.DTO;
 
+import java.util.Objects;
+
 public class GameReview implements Comparable {
     private VideoGame videoGame;
     private UserAccount account;
@@ -53,5 +55,19 @@ public class GameReview implements Comparable {
     public int compareTo(Object o) {
         GameReview gameReview=(GameReview) o;
         return this.getScore().compareTo(gameReview.getScore());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GameReview)) return false;
+        GameReview that = (GameReview) o;
+        return getVideoGame().equals(that.getVideoGame()) &&
+                getAccount().equals(that.getAccount());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getVideoGame(), getAccount(), getScore(), getComment());
     }
 }
