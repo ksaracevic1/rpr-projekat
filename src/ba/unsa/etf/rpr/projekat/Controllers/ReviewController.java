@@ -53,12 +53,12 @@ public class ReviewController extends Controller {
         gameReviews.add(review);
         gameViewController.setButtonUpdate();
         gameViewController.setAccountReview(review);
+        gameViewController.setAverageScore();
         close();
     }
 
     public void updateClick(ActionEvent actionEvent) {
         for(int i=0; i<gameReviews.size();i++) {
-            System.out.println(gameReviews.get(i).equals(accountReview));
             if (gameReviews.get(i).equals(accountReview)) {
                 GameReview gameReview=gameReviews.get(i);
                 gameReviews.remove(i);
@@ -68,6 +68,7 @@ public class ReviewController extends Controller {
                 gameReviews.add(i,gameReview);
                 dao.updateGameReview(gameReviews.get(i));
                 gameViewController.setAccountReview(gameReviews.get(i));
+                gameViewController.setAverageScore();
                 break;
             }
             i++;
@@ -82,6 +83,7 @@ public class ReviewController extends Controller {
                 gameReviews.remove(i);
                 gameViewController.setButtonWrite();
                 gameViewController.setAccountReview(null);
+                gameViewController.setAverageScore();
                 break;
             }
             i++;

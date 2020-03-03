@@ -30,21 +30,22 @@ public class GameViewController extends Controller {
     public Label gameGenre;
     public Label gameReleaseDate;
     public Label gameDescription;
+    public Label scoreLabel, scoreNumberLabel;
     public ImageView gameImage;
     public Button reviewButton;
-    public ImageView reviewButtonImageView=new ImageView();
+    public ImageView reviewButtonImageView = new ImageView();
     public ListView<GameReview> reviewListView;
     private VideoGame selectedGame;
     private UserAccount accountInUse;
     private DatabaseDAO dao;
-    private GameReview accountReview=null;
+    private GameReview accountReview = null;
     private ObservableList<GameReview> gameReviews = FXCollections.observableArrayList();
-    private ResourceBundle bundle=ResourceBundle.getBundle("Language");
+    private ResourceBundle bundle = ResourceBundle.getBundle("Language");
 
-    public GameViewController(VideoGame videoGame, DatabaseDAO dao,UserAccount accountInUse) {
+    public GameViewController(VideoGame videoGame, DatabaseDAO dao, UserAccount accountInUse) {
         this.selectedGame = videoGame;
         this.dao = dao;
-        this.accountInUse=accountInUse;
+        this.accountInUse = accountInUse;
     }
 
     public GameReview getAccountReview() {
@@ -64,11 +65,11 @@ public class GameViewController extends Controller {
         gameReleaseDate.setText(selectedGame.getReleaseDate().format(formatter));
         gameDescription.setText(selectedGame.getDescription());
         UIControl.loadImage(gameImage, selectedGame.getImageLink(), 250, 250);
-        accountReview=dao.getReviewByUserGame(selectedGame,accountInUse);
+        accountReview = dao.getReviewByUserGame(selectedGame, accountInUse);
         reviewButtonImageView.setFitHeight(16);
         reviewButtonImageView.setFitWidth(16);
         reviewButton.setGraphic(reviewButtonImageView);
-        if(accountReview!=null){
+        if (accountReview != null) {
             setButtonUpdate();
         } else {
             setButtonWrite();
@@ -76,7 +77,8 @@ public class GameViewController extends Controller {
         Set<GameReview> gameReviewSet = dao.getReviewsByGameId(selectedGame.getId());
         gameReviews.addAll(gameReviewSet);
         reviewListView.setCellFactory(param -> new ListCell<>() {
-            private ImageView imageView=new ImageView();
+            private ImageView imageView = new ImageView();
+
             @Override
             public void updateItem(GameReview item, boolean empty) {
                 super.updateItem(item, empty);
@@ -84,19 +86,20 @@ public class GameViewController extends Controller {
                     setText(null);
                     setGraphic(null);
                 } else {
-                    UIControl.loadImage(imageView,item.getAccount().getAvatarLink(),50,50);
+                    UIControl.loadImage(imageView, item.getAccount().getAvatarLink(), 50, 50);
                     setGraphic(imageView);
-                    setText(bundle.getString("userColon")+" "+item.getAccount().getUsername()+" "
-                            +bundle.getString("scoreColon")+" "+item.getScore()+"/10\n"
-                            +bundle.getString("commentColon")+" "+item.getComment());
+                    setText(bundle.getString("userColon") + " " + item.getAccount().getUsername() + " "
+                            + bundle.getString("scoreColon") + " " + item.getScore() + "/10\n"
+                            + bundle.getString("commentColon") + " " + item.getComment());
                     setFont(Font.font(14));
                 }
             }
         });
         reviewListView.setItems(gameReviews);
+        setAverageScore();
     }
 
-    public void setButtonUpdate(){
+    public void setButtonUpdate() {
         reviewButton.setText(bundle.getString("updateReview"));
         try {
             reviewButtonImageView.setImage(new Image(new FileInputStream("resources/img/update.png")));
@@ -108,7 +111,7 @@ public class GameViewController extends Controller {
         });
     }
 
-    public void setButtonWrite(){
+    public void setButtonWrite() {
         reviewButton.setText(bundle.getString("writeReview"));
         try {
             reviewButtonImageView.setImage(new Image(new FileInputStream("resources/img/write.png")));
@@ -120,11 +123,26 @@ public class GameViewController extends Controller {
         });
     }
 
-    private void updateReview(){
-        UIControl.openWindow(getClass(),new ReviewController(gameReviews,accountReview,dao,this),bundle,"updateReview.fxml");
+    public void setAverageScore() {
+        if (gameReviews.size() == 0) {
+            scoreLabel.setText(bundle.getString("avgScoreColon"));
+            scoreNumberLabel.setText(bundle.getString("noScore"));
+            return;
+        }
+        Double sum = 0.;
+        for (GameReview gameReview : gameReviews) {
+            sum += gameReview.getScore();
+        }
+        sum /= gameReviews.size();
+        scoreLabel.setText(bundle.getString("avgScoreColon"));
+        scoreNumberLabel.setText((Math.round(sum * 10) / 10.0)+"");
     }
 
-    private void writeReview(){
-        UIControl.openWindow(getClass(),new ReviewController(gameReviews,selectedGame,accountInUse,dao,this),bundle,"writeReview.fxml");
+    private void updateReview() {
+        UIControl.openWindow(getClass(), new ReviewController(gameReviews, accountReview, dao, this), bundle, "updateReview.fxml");
+    }
+
+    private void writeReview() {
+        UIControl.openWindow(getClass(), new ReviewController(gameReviews, selectedGame, accountInUse, dao, this), bundle, "writeReview.fxml");
     }
 }
