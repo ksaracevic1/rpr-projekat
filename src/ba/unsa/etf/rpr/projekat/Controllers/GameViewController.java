@@ -139,10 +139,10 @@ public class GameViewController extends Controller {
     }
 
     private void updateReview() {
-        UIControl.openWindow(getClass(), new ReviewController(gameReviews, accountReview, dao, this), bundle, "updateReview.fxml");
+        UIControl.openWindow(getClass(), new ReviewController(gameReviews, accountReview, dao, this), bundle, "updateReview.fxml",bundle.getString("updateReview"));
     }
 
     private void writeReview() {
-        UIControl.openWindow(getClass(), new ReviewController(gameReviews, selectedGame, accountInUse, dao, this), bundle, "writeReview.fxml");
+        UIControl.openWindow(getClass(), new ReviewController(gameReviews, selectedGame, accountInUse, dao, this), bundle, "writeReview.fxml",bundle.getString("writeReview"));
     }
 }
