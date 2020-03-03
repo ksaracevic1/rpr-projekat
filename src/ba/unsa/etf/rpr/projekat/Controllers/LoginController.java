@@ -6,6 +6,7 @@ import ba.unsa.etf.rpr.projekat.DTO.AdminAccount;
 import ba.unsa.etf.rpr.projekat.DTO.UserAccount;
 import ba.unsa.etf.rpr.projekat.Interfaces.DatabaseDAO;
 import ba.unsa.etf.rpr.projekat.UIControl;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,10 +15,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 
@@ -27,7 +36,7 @@ public class LoginController extends Controller {
 
     public Button loginButton, exitButton, registerButton;
 
-    public Label errorLabel;
+    public Label errorLabel,quoteLabel,authorLabel;
     public ChoiceBox<String> languageBox;
 
     private DatabaseDAO dao = null;
@@ -48,6 +57,7 @@ public class LoginController extends Controller {
         accounts.addAll(dao.getAdmins());
         accounts.addAll(dao.getUsers());
         languageBox.setItems(languages);
+        loadQuote();
     }
 
     public void loginClick(ActionEvent actionEvent) {
@@ -117,5 +127,45 @@ public class LoginController extends Controller {
             viewType = "userView.fxml";
             UIControl.openWindow(getClass(), new MainController(dao, userAccount), ResourceBundle.getBundle("Language"), viewType);
         }
+    }
+
+    private int getRandomNumberInRange(int min, int max) {
+
+        if (min >= max) {
+            throw new IllegalArgumentException("Max must be greater than min");
+        }
+
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
+    }
+
+    private void loadQuote(){
+        new Thread(()->{
+        try {
+            URL url=new URL("https://type.fit/api/quotes");
+            BufferedReader input = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
+            StringBuilder json = new StringBuilder();
+            String line = null;
+            while ((line = input.readLine()) != null) {
+                json.append(line);
+            }
+            JSONArray jsonArray=new JSONArray(json.toString());
+            int index=getRandomNumberInRange(0,jsonArray.length()-1);
+            JSONObject jsonObject= jsonArray.getJSONObject(index);
+            Platform.runLater(() -> {
+                String text=jsonObject.getString("text");
+                Object author=jsonObject.get("author");
+                quoteLabel.setText(text);
+                if(author instanceof String){
+                    authorLabel.setText((String)author);
+                }
+                else {
+                    authorLabel.setText(bundle.getString("anonAuthor"));
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        }).start();
     }
 }

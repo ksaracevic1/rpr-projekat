@@ -21,6 +21,14 @@ public class UIControl {
     }
 
     public static void openWindow(Class cls,Controller controller, ResourceBundle bundle, String fxmlFile, String title){
+        openWindow(cls,controller,bundle,fxmlFile,title,true);
+    }
+
+    public static void openWindow(Class cls,Controller controller, ResourceBundle bundle, String fxmlFile, Boolean resizable){
+        openWindow(cls,controller,bundle,fxmlFile,bundle.getString("vgDatabase"),resizable);
+    }
+
+    public static void openWindow(Class cls,Controller controller, ResourceBundle bundle, String fxmlFile, String title, Boolean resizeable){
         Stage stage = new Stage();
         Parent root = null;
         try {
@@ -33,6 +41,7 @@ public class UIControl {
             stage.setTitle(title);
             stage.getIcons().add(new Image(new FileInputStream("resources/img/controller.png")));
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+            stage.setResizable(resizeable);
         } catch (IOException e) {
             e.printStackTrace();
         }

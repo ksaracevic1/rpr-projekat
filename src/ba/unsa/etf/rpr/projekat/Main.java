@@ -16,7 +16,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         dao=new DatabaseDAODB();
-        UIControl.openWindow(getClass(), new LoginController(dao), ResourceBundle.getBundle("Language"), "login.fxml");
+        UIControl.openWindow(getClass(), new LoginController(dao), ResourceBundle.getBundle("Language"), "login.fxml",false);
     }
 
 
