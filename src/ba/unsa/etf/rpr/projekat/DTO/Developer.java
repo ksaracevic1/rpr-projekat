@@ -61,10 +61,7 @@ public class Developer {
         if (this == o) return true;
         if (!(o instanceof Developer)) return false;
         Developer developer = (Developer) o;
-        return getId().equals(developer.getId()) &&
-                getName().equals(developer.getName()) &&
-                getDescription().equals(developer.getDescription()) &&
-                getIconLink().equals(developer.getIconLink());
+        return getName().equals(developer.getName());
     }
 
     @Override

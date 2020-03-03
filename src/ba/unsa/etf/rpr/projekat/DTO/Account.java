@@ -12,9 +12,7 @@ public abstract class Account {
         if (this == o) return true;
         if (!(o instanceof Account)) return false;
         Account account = (Account) o;
-        return getId().equals(account.getId()) &&
-                getUsername().equals(account.getUsername()) &&
-                getPassword().equals(account.getPassword());
+        return getUsername().equals(account.getUsername());
     }
 
     @Override
@@ -22,20 +20,20 @@ public abstract class Account {
         return Objects.hash(getId(), getUsername(), getPassword());
     }
 
-    public Account(){
+    public Account() {
         super();
     }
 
-    public Account(int id, String username, String password){
-        this.id=id;
+    public Account(int id, String username, String password) {
+        this.id = id;
        /* if(!username.matches("^(?=\\S+$).{4,}$")){
             throw new IllegalArgumentException("Illegal username");
         }
         if(!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")){
             throw new IllegalArgumentException("Illegal password");
         }*/
-        this.username=username;
-        this.password=password;
+        this.username = username;
+        this.password = password;
     }
 
     public Integer getId() {
@@ -63,7 +61,7 @@ public abstract class Account {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return getUsername();
     }
 }

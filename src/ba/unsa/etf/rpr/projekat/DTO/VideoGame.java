@@ -88,13 +88,7 @@ public class VideoGame {
         if (this == o) return true;
         if (!(o instanceof VideoGame)) return false;
         VideoGame videoGame = (VideoGame) o;
-        return getId().equals(videoGame.getId()) &&
-                getDeveloper().equals(videoGame.getDeveloper()) &&
-                getGenre().equals(videoGame.getGenre()) &&
-                getName().equals(videoGame.getName()) &&
-                getDescription().equals(videoGame.getDescription()) &&
-                getReleaseDate().equals(videoGame.getReleaseDate()) &&
-                getImageLink().equals(videoGame.getImageLink());
+        return getName().equals(videoGame.getName());
     }
 
     @Override

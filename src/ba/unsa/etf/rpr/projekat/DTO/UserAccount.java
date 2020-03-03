@@ -29,7 +29,7 @@ public class UserAccount extends Account {
         if (this == o) return true;
         if (!(o instanceof UserAccount)) return false;
         UserAccount that = (UserAccount) o;
-        return getAvatarLink().equals(that.avatarLink);
+        return getUsername().equals(that.getUsername());
     }
 
     @Override
