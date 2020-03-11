@@ -7,8 +7,10 @@ import ba.unsa.etf.rpr.projekat.DTO.Developer;
 import ba.unsa.etf.rpr.projekat.DTO.UserAccount;
 import ba.unsa.etf.rpr.projekat.DTO.VideoGame;
 import ba.unsa.etf.rpr.projekat.Exceptions.InvalidSearchTermException;
+import ba.unsa.etf.rpr.projekat.Interfaces.DataControl;
 import ba.unsa.etf.rpr.projekat.Interfaces.DatabaseDAO;
 import ba.unsa.etf.rpr.projekat.JasperReport;
+import ba.unsa.etf.rpr.projekat.SearchType;
 import ba.unsa.etf.rpr.projekat.UIControl;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -26,35 +28,11 @@ import net.sf.jasperreports.engine.JRException;
 import java.util.ResourceBundle;
 
 
-public class MainController extends Controller {
+public class MainController extends Controller implements DataControl {
 
     private DatabaseDAO dao;
     private UserAccount accountInUse;
     private ResourceBundle bundle = ResourceBundle.getBundle("Language");
-
-    enum SearchType {
-        All,
-        Name,
-        Genre,
-        Developer;
-
-        @Override
-        public String toString() {
-            ResourceBundle b = ResourceBundle.getBundle("Language");
-            switch (this) {
-                case All:
-                    return b.getString("all");
-                case Name:
-                    return b.getString("name");
-                case Genre:
-                    return b.getString("genre");
-                case Developer:
-                    return b.getString("developer");
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-    }
 
     public BorderPane mainBorder;
     public Menu usernameMenu;
@@ -83,8 +61,7 @@ public class MainController extends Controller {
         choiceBoxDV.setValue(SearchType.All);
         usernameMenu.setText(accountInUse.getUsername());
         new Thread(() -> {
-            UserAccount ua = (UserAccount) accountInUse;
-            Image image = new Image(ua.getAvatarLink());
+            Image image = new Image(accountInUse.getAvatarLink());
             Platform.runLater(() -> {
                 ImageView imageView = new ImageView(image);
                 imageView.setFitWidth(15);
@@ -96,18 +73,21 @@ public class MainController extends Controller {
     }
 
 
+    @Override
     public void switchDb(ActionEvent actionEvent) {
         if (dao != null) dao.close();
         clearUI();
         dao = new DatabaseDAODB();
     }
 
+    @Override
     public void switchXml(ActionEvent actionEvent) {
         if (dao != null) dao.close();
         clearUI();
         dao = new DatabaseDAOXML();
     }
 
+    @Override
     public void clearUI() {
         tilePaneVG.getChildren().clear();
         tilePaneDV.getChildren().clear();

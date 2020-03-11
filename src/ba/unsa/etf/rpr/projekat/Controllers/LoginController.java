@@ -121,11 +121,11 @@ public class LoginController extends Controller {
     public void openMain(Account account) {
         String viewType;
         if (account instanceof AdminAccount) {
-            viewType = "adminView.fxml";
+            AdminAccount adminAccount=(AdminAccount)account;
+            UIControl.openWindow(getClass(), new AdminController(dao, adminAccount), ResourceBundle.getBundle("Language"), "adminView.fxml");
         } else {
             UserAccount userAccount=(UserAccount)account;
-            viewType = "userView.fxml";
-            UIControl.openWindow(getClass(), new MainController(dao, userAccount), ResourceBundle.getBundle("Language"), viewType);
+            UIControl.openWindow(getClass(), new MainController(dao, userAccount), ResourceBundle.getBundle("Language"), "userView.fxml");
         }
     }
 
