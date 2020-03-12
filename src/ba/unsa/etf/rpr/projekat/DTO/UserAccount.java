@@ -23,7 +23,6 @@ public class UserAccount extends Account {
         this.avatarLink = avatarLink;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
