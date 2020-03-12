@@ -84,6 +84,11 @@ public class VideoGame {
     }
 
     @Override
+    public String toString() {
+        return getName();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof VideoGame)) return false;

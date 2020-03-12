@@ -119,7 +119,6 @@ public class LoginController extends Controller {
     }
 
     public void openMain(Account account) {
-        String viewType;
         if (account instanceof AdminAccount) {
             AdminAccount adminAccount=(AdminAccount)account;
             UIControl.openWindow(getClass(), new AdminController(dao, adminAccount), ResourceBundle.getBundle("Language"), "adminView.fxml");

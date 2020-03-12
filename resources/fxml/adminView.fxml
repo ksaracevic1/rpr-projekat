@@ -40,6 +40,13 @@
                             <Label text="%searchBy"/>
                             <ChoiceBox fx:id="choiceBoxVG" prefWidth="150"/>
                         </HBox>
+                        <ButtonBar prefHeight="50">
+                            <buttons>
+                                <Button text="%add" onAction="#addVideoGame"/>
+                                <Button text="%update" onAction="#updateVideoGame"/>
+                                <Button text="%delete" onAction="#deleteVideoGame"/>
+                            </buttons>
+                        </ButtonBar>
                         <ScrollPane fx:id="scrollPaneVG" fitToWidth="true" fitToHeight="true" prefHeight="400">
                             <ListView fx:id="VGListView"/>
                         </ScrollPane>
@@ -53,6 +60,13 @@
                             <Label text="%searchBy"/>
                             <ChoiceBox fx:id="choiceBoxDV" prefWidth="150"/>
                         </HBox>
+                        <ButtonBar prefHeight="50">
+                            <buttons>
+                                <Button text="%add" onAction="#addDeveloper"/>
+                                <Button text="%update" onAction="#updateDeveloper"/>
+                                <Button text="%delete" onAction="#deleteDeveloper"/>
+                            </buttons>
+                        </ButtonBar>
                         <ScrollPane fx:id="scrollPaneDV" fitToWidth="true" fitToHeight="true" prefHeight="400">
                             <ListView fx:id="DVListView"/>
                         </ScrollPane>
@@ -66,6 +80,13 @@
                             <Label text="%searchBy"/>
                             <ChoiceBox fx:id="choiceBoxUsers" prefWidth="150"/>
                         </HBox>
+                        <ButtonBar prefHeight="50">
+                            <buttons>
+                                <Button text="%add" onAction="#addUser"/>
+                                <Button text="%update" onAction="#updateUser"/>
+                                <Button text="%delete" onAction="#deleteUser"/>
+                            </buttons>
+                        </ButtonBar>
                         <ScrollPane fx:id="scrollPaneUsers" fitToWidth="true" fitToHeight="true" prefHeight="400">
                             <ListView fx:id="userListView"/>
                         </ScrollPane>
@@ -79,6 +100,13 @@
                             <Label text="%searchBy"/>
                             <ChoiceBox fx:id="choiceBoxAdmins" prefWidth="150"/>
                         </HBox>
+                        <ButtonBar prefHeight="50">
+                            <buttons>
+                                <Button text="%add" onAction="#addAdmin"/>
+                                <Button text="%update" onAction="#updateAdmin"/>
+                                <Button text="%delete" onAction="#deleteAdmin"/>
+                            </buttons>
+                        </ButtonBar>
                         <ScrollPane fx:id="scrollPaneAdmins" fitToWidth="true" fitToHeight="true" prefHeight="400">
                             <ListView fx:id="adminListView"/>
                         </ScrollPane>
