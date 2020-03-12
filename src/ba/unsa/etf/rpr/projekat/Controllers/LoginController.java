@@ -21,7 +21,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -121,10 +120,10 @@ public class LoginController extends Controller {
     public void openMain(Account account) {
         if (account instanceof AdminAccount) {
             AdminAccount adminAccount=(AdminAccount)account;
-            UIControl.openWindow(getClass(), new AdminController(dao, adminAccount), ResourceBundle.getBundle("Language"), "adminView.fxml");
+            UIControl.openWindow(getClass(), new AdminViewController(dao, adminAccount), ResourceBundle.getBundle("Language"), "adminView.fxml");
         } else {
             UserAccount userAccount=(UserAccount)account;
-            UIControl.openWindow(getClass(), new MainController(dao, userAccount), ResourceBundle.getBundle("Language"), "userView.fxml");
+            UIControl.openWindow(getClass(), new UserViewController(dao, userAccount), ResourceBundle.getBundle("Language"), "userView.fxml");
         }
     }
 

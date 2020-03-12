@@ -24,7 +24,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 
-public class AdminController extends Controller implements DataControl {
+public class AdminViewController extends Controller implements DataControl {
 
     private DatabaseDAO dao;
     private AdminAccount accountInUse;
@@ -41,7 +41,7 @@ public class AdminController extends Controller implements DataControl {
     private ObservableList<AdminAccount> adminAccounts;
     private ObservableList<UserAccount> userAccounts;
 
-    public AdminController(DatabaseDAO dao, AdminAccount accountInUse) {
+    public AdminViewController(DatabaseDAO dao, AdminAccount accountInUse) {
         this.dao = dao;
         this.accountInUse = accountInUse;
         videoGames=dao.getVideoGames();

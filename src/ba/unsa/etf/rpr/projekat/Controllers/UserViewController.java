@@ -28,7 +28,7 @@ import net.sf.jasperreports.engine.JRException;
 import java.util.ResourceBundle;
 
 
-public class MainController extends Controller implements DataControl {
+public class UserViewController extends Controller implements DataControl {
 
     private DatabaseDAO dao;
     private UserAccount accountInUse;
@@ -48,7 +48,7 @@ public class MainController extends Controller implements DataControl {
             FXCollections.observableArrayList(
                     SearchType.All, SearchType.Name);
 
-    public MainController(DatabaseDAO dao, UserAccount accountInUse) {
+    public UserViewController(DatabaseDAO dao, UserAccount accountInUse) {
         this.dao = dao;
         this.accountInUse = accountInUse;
     }
