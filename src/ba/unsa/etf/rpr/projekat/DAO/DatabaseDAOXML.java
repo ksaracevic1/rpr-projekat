@@ -388,6 +388,30 @@ public class DatabaseDAOXML implements DatabaseDAO {
     }
 
     @Override
+    public void removeReviewsByGame(VideoGame videoGame) {
+        for (int i = 0; i < gameReviews.size(); i++) {
+            int vgId1 = videoGame.getId(), vgId2=gameReviews.get(i).getVideoGame().getId();
+            if (vgId1==vgId2) {
+                gameReviews.remove(i);
+                break;
+            }
+        }
+        write();
+    }
+
+    @Override
+    public void removeReviewsByUser(UserAccount userAccount) {
+        for (int i = 0; i < gameReviews.size(); i++) {
+            int uId1=userAccount.getId(), uId2=gameReviews.get(i).getAccount().getId();
+            if (uId1==uId2) {
+                gameReviews.remove(i);
+                break;
+            }
+        }
+        write();
+    }
+
+    @Override
     public void close() {
 
     }

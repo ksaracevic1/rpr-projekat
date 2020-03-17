@@ -39,6 +39,8 @@ public interface DatabaseDAO {
     void addGameReview(GameReview gameReview);
     void removeGameReview(GameReview gameReview);
     void updateGameReview(GameReview gameReview);
+    void removeReviewsByGame(VideoGame videoGame);
+    void removeReviewsByUser(UserAccount userAccount);
 
     void close();
 }

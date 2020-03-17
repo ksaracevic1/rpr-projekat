@@ -30,7 +30,8 @@ public class DatabaseDAODB implements DatabaseDAO {
             getUsersQuery, addUserQuery, removeUserQuery, updateUserQuery, getUserByIdQuery,
             getAdminsQuery, addAdminQuery, removeAdminQuery, updateAdminQuery, getAdminByIdQuery,
             getNewVideoGameIdQuery, getNewAdminIdQuery, getNewUserIdQuery, getNewDeveloperIdQuery, getDeveloperByNameQuery,
-            getReviewsByGameIdQuery, addGameReviewQuery, removeGameReviewQuery, updateGameReviewQuery, getReviewByUserGameQuery;
+            getReviewsByGameIdQuery, addGameReviewQuery, removeGameReviewQuery, updateGameReviewQuery, getReviewByUserGameQuery,
+            removeReviewsByGameQuery, removeReviewsByUserQuery;
 
     public DatabaseDAODB() {
         try {
@@ -85,6 +86,8 @@ public class DatabaseDAODB implements DatabaseDAO {
             removeUserQuery = conn.prepareStatement("DELETE FROM user_account WHERE id=?");
             removeAdminQuery = conn.prepareStatement("DELETE FROM admin_account WHERE id=?");
             removeGameReviewQuery = conn.prepareStatement("DELETE FROM game_review WHERE game_id=? AND user_id=?");
+            removeReviewsByGameQuery = conn.prepareStatement("DELETE FROM game_review WHERE game_id=?");
+            removeReviewsByUserQuery = conn.prepareStatement("DELETE FROM game_review WHERE user_id=?");
 
             updateVideoGameQuery = conn.prepareStatement("UPDATE video_game SET name=?, dev_id=?, genre=?, description=?, release_date=?, image_link=? WHERE id=?");
             updateDeveloperQuery = conn.prepareStatement("UPDATE developer SET name=?, description=?, icon=? WHERE id=?");
@@ -97,6 +100,7 @@ public class DatabaseDAODB implements DatabaseDAO {
             getVideoGameByGenreQuery = conn.prepareStatement("SELECT * FROM video_game WHERE genre LIKE ?");
             getDeveloperByNameQuery = conn.prepareStatement("SELECT * FROM developer WHERE name LIKE ?");
             getReviewByUserGameQuery = conn.prepareStatement("SELECT * FROM game_review WHERE game_id=? AND user_id=?");
+
         } catch (SQLException e) {
             System.out.println("Failed to prepare statement");
         }
@@ -581,6 +585,27 @@ public class DatabaseDAODB implements DatabaseDAO {
             System.out.println("Error while executing query");
         }
     }
+
+    @Override
+    public void removeReviewsByGame(VideoGame videoGame) {
+        try {
+            removeGameReviewQuery.setInt(1, videoGame.getId());
+            removeGameReviewQuery.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error while executing query");
+        }
+    }
+
+    @Override
+    public void removeReviewsByUser(UserAccount userAccount) {
+        try {
+            removeGameReviewQuery.setInt(1, userAccount.getId());
+            removeGameReviewQuery.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error while executing query");
+        }
+    }
+
 
     @Override
     public void close() {
