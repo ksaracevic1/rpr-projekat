@@ -103,10 +103,6 @@ public class LoginController extends Controller {
         } else if (pos == 1) {
             Locale.setDefault(new Locale("en_US", "US"));
         }
-        languages.clear();
-        languages.add(bundle.getString("bosnian"));
-        languages.add(bundle.getString("english"));
-        languageBox.setItems(languages);
         Scene scene = usernameField.getScene();
         ResourceBundle bundle = ResourceBundle.getBundle("Language");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"), bundle);

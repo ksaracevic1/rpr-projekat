@@ -10,9 +10,7 @@ import ba.unsa.etf.rpr.projekat.UIControl;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Menu;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -22,6 +20,7 @@ import net.sf.jasperreports.engine.JRException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AdminViewController extends Controller implements DataControl {
@@ -44,16 +43,16 @@ public class AdminViewController extends Controller implements DataControl {
     public AdminViewController(DatabaseDAO dao, AdminAccount accountInUse) {
         this.dao = dao;
         this.accountInUse = accountInUse;
-        videoGames=dao.getVideoGames();
-        developers=dao.getDevelopers();
-        adminAccounts=dao.getAdmins();
-        userAccounts=dao.getUsers();
+        videoGames = dao.getVideoGames();
+        developers = dao.getDevelopers();
+        adminAccounts = dao.getAdmins();
+        userAccounts = dao.getUsers();
     }
 
     @FXML
     public void initialize() {
         usernameMenu.setText(accountInUse.getUsername());
-        ImageView imageView=new ImageView();
+        ImageView imageView = new ImageView();
         try {
             imageView.setImage(new Image(new FileInputStream("resources/img/admin.png")));
         } catch (FileNotFoundException e) {
@@ -69,7 +68,7 @@ public class AdminViewController extends Controller implements DataControl {
         userListView.setItems(userAccounts);
     }
 
-    private void getAllData(){
+    private void getAllData() {
         clearUI();
         videoGames.setAll(dao.getVideoGames());
         developers.setAll(dao.getDevelopers());
@@ -121,65 +120,149 @@ public class AdminViewController extends Controller implements DataControl {
         }
     }
 
-    public void addVideoGame(ActionEvent actionEvent){
-
+    public void addVideoGame(ActionEvent actionEvent) {
+        UIControl.openWindow(getClass(), new GameFormController(null, videoGames, dao), bundle, "videoGameForm.fxml", false);
     }
 
-    public void updateVideoGame(ActionEvent actionEvent){
-
+    public void updateVideoGame(ActionEvent actionEvent) {
+        VideoGame selectedGame = VGListView.getSelectionModel().getSelectedItem();
+        if (selectedGame != null) {
+            UIControl.openWindow(getClass(), new GameFormController(selectedGame, videoGames, dao), bundle, "videoGameForm.fxml", false);
+        }
     }
 
-    public void deleteVideoGame(ActionEvent actionEvent){
-
+    public void deleteVideoGame(ActionEvent actionEvent) {
+        VideoGame videoGame = VGListView.getSelectionModel().getSelectedItem();
+        if (videoGame == null) return;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(bundle.getString("deleteVG"));
+        alert.setHeaderText(bundle.getString("deletingVG") + " " + videoGame.getName());
+        alert.setContentText(bundle.getString("confirmDeleteVG") + " " + videoGame.getName() + "?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            dao.removeReviewsByGame(videoGame);
+            dao.removeVideoGame(videoGame);
+            videoGames.remove(videoGame);
+        }
     }
 
-    public void addDeveloper(ActionEvent actionEvent){
-
+    public void addDeveloper(ActionEvent actionEvent) {
+        UIControl.openWindow(getClass(), new DevFormController(null, developers, dao), bundle, "developerForm.fxml", false);
     }
 
-    public void updateDeveloper(ActionEvent actionEvent){
-
+    public void updateDeveloper(ActionEvent actionEvent) {
+        Developer selectedDev = DVListView.getSelectionModel().getSelectedItem();
+        if (selectedDev != null) {
+            UIControl.openWindow(getClass(), new DevFormController(selectedDev, developers, dao), bundle, "developerForm.fxml", false);
+        }
     }
 
-    public void deleteDeveloper(ActionEvent actionEvent){
-
+    public void deleteDeveloper(ActionEvent actionEvent) {
+        Developer developer = DVListView.getSelectionModel().getSelectedItem();
+        if (developer == null) return;
+        ObservableList<VideoGame> res = dao.getVideoGameByDeveloper(developer.getName());
+        if (res.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle(bundle.getString("deleteDV"));
+            alert.setHeaderText(bundle.getString("deletingDV") + " " + developer.getName());
+            alert.setContentText(bundle.getString("confirmDeleteDV") + " " + developer.getName() + "?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                dao.removeDeveloper(developer);
+                developers.remove(developer);
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(bundle.getString("error"));
+            alert.setHeaderText(bundle.getString("cannotDeleteDV"));
+            alert.setContentText(bundle.getString("DevVGExists"));
+            alert.show();
+        }
     }
 
-    public void addUser(ActionEvent actionEvent){
-
+    public void addUser(ActionEvent actionEvent) {
+        UIControl.openWindow(getClass(), new UserFormController(null, dao, userAccounts), bundle, "userForm.fxml", false);
     }
 
-    public void updateUser(ActionEvent actionEvent){
-
+    public void updateUser(ActionEvent actionEvent) {
+        UserAccount selectedUser=userListView.getSelectionModel().getSelectedItem();
+        if(selectedUser != null){
+            UIControl.openWindow(getClass(), new UserFormController(selectedUser, dao, userAccounts), bundle, "userForm.fxml", false);
+        }
     }
 
-    public void deleteUser(ActionEvent actionEvent){
-
+    public void deleteUser(ActionEvent actionEvent) {
+        UserAccount userAccount = userListView.getSelectionModel().getSelectedItem();
+        if (userAccount == null) return;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(bundle.getString("deleteUser"));
+        alert.setHeaderText(bundle.getString("deletingUser") + " " + userAccount.getUsername());
+        alert.setContentText(bundle.getString("confirmDeleteUser") + " " + userAccount.getUsername() + "?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            dao.removeReviewsByUser(userAccount);
+            dao.removeUser(userAccount);
+            userAccounts.remove(userAccount);
+        }
     }
 
-    public void addAdmin(ActionEvent actionEvent){
-
+    public void addAdmin(ActionEvent actionEvent) {
+        UIControl.openWindow(getClass(), new AdminFormController(null, dao, adminAccounts), bundle, "adminFrom.fxml", false);
     }
 
-    public void updateAdmin(ActionEvent actionEvent){
-
+    public void updateAdmin(ActionEvent actionEvent) {
+        AdminAccount selectedAdmin=adminListView.getSelectionModel().getSelectedItem();
+        if(selectedAdmin != null){
+            if(selectedAdmin.equals(accountInUse)){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle(bundle.getString("error"));
+                alert.setHeaderText(bundle.getString("cannotUpdateAdmin"));
+                alert.setContentText(bundle.getString("loggedAdmin"));
+                alert.show();
+            } else {
+                UIControl.openWindow(getClass(), new AdminFormController(selectedAdmin, dao, adminAccounts), bundle, "adminFrom.fxml", false);
+            }
+        }
     }
 
-    public void deleteAdmin(ActionEvent actionEvent){
-
+    public void deleteAdmin(ActionEvent actionEvent) {
+        AdminAccount selectedAdmin=adminListView.getSelectionModel().getSelectedItem();
+        if(selectedAdmin==null) return;
+        if(selectedAdmin.equals(accountInUse)){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(bundle.getString("error"));
+            alert.setHeaderText(bundle.getString("cannotUpdateAdmin"));
+            alert.setContentText(bundle.getString("loggedAdmin"));
+            alert.show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle(bundle.getString("deleteAdmin"));
+            alert.setHeaderText(bundle.getString("deletingAdmin") + " " + selectedAdmin.getUsername());
+            alert.setContentText(bundle.getString("confirmDeleteAdmin") + " " + selectedAdmin.getUsername() + "?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                dao.removeAdmin(selectedAdmin);
+                adminAccounts.remove(selectedAdmin);
+            }
+        }
     }
 
-    public void searchVG(ActionEvent actionEvent) {}
+    public void searchVG(ActionEvent actionEvent) {
+    }
 
-    public void searchDV(ActionEvent actionEvent) {}
+    public void searchDV(ActionEvent actionEvent) {
+    }
 
-    public void searchUsers(ActionEvent actionEvent) {}
+    public void searchUsers(ActionEvent actionEvent) {
+    }
 
-    public void searchAdmins(ActionEvent actionEvent) {}
+    public void searchAdmins(ActionEvent actionEvent) {
+    }
 
-    private void configureLists(){
+    private void configureLists() {
         VGListView.setCellFactory(param -> new ListCell<>() {
             private ImageView imageView = new ImageView();
+
             @Override
             public void updateItem(VideoGame item, boolean empty) {
                 super.updateItem(item, empty);
@@ -197,6 +280,7 @@ public class AdminViewController extends Controller implements DataControl {
 
         DVListView.setCellFactory(param -> new ListCell<>() {
             private ImageView imageView = new ImageView();
+
             @Override
             public void updateItem(Developer item, boolean empty) {
                 super.updateItem(item, empty);
@@ -214,6 +298,7 @@ public class AdminViewController extends Controller implements DataControl {
 
         userListView.setCellFactory(param -> new ListCell<>() {
             private ImageView imageView = new ImageView();
+
             @Override
             public void updateItem(UserAccount item, boolean empty) {
                 super.updateItem(item, empty);
@@ -231,6 +316,7 @@ public class AdminViewController extends Controller implements DataControl {
 
         adminListView.setCellFactory(param -> new ListCell<>() {
             private ImageView imageView = new ImageView();
+
             @Override
             public void updateItem(AdminAccount item, boolean empty) {
                 super.updateItem(item, empty);
@@ -238,7 +324,7 @@ public class AdminViewController extends Controller implements DataControl {
                     setText(null);
                     setGraphic(null);
                 } else {
-                    ImageView imageView=new ImageView();
+                    ImageView imageView = new ImageView();
                     try {
                         imageView.setImage(new Image(new FileInputStream("resources/img/admin.png")));
                     } catch (FileNotFoundException e) {

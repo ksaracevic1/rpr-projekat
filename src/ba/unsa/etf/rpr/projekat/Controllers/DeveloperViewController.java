@@ -2,6 +2,7 @@ package ba.unsa.etf.rpr.projekat.Controllers;
 
 import ba.unsa.etf.rpr.projekat.DTO.Developer;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -30,5 +31,13 @@ public class DeveloperViewController extends Controller {
                 developerImage.setFitWidth(250);
             });
         }).start();
+    }
+
+    public void okClick(ActionEvent actionEvent){
+
+    }
+
+    public void cancelClick(ActionEvent actionEvent){
+
     }
 }
