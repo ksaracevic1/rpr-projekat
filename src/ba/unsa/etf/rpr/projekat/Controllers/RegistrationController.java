@@ -31,21 +31,21 @@ public class RegistrationController extends Controller {
 
     public void registerClick(ActionEvent actionEvent){
         Boolean b1= usernameValid(),b2= passwordValid();
-        if(b1){
+        if(!b1){
             usernameField.getStyleClass().removeAll("fieldCorrect");
             usernameField.getStyleClass().add("fieldIncorrect");
         } else{
             usernameField.getStyleClass().removeAll("fieldIncorrect");
             usernameField.getStyleClass().add("fieldCorrect");
         }
-        if(b2){
+        if(!b2){
             passwordField.getStyleClass().removeAll("fieldCorrect");
             passwordField.getStyleClass().add("fieldIncorrect");
         } else{
             passwordField.getStyleClass().removeAll("fieldIncorrect");
             passwordField.getStyleClass().add("fieldCorrect");
         }
-        if(!b1 && !b2){
+        if(b1 && b2){
             UserAccount ua=new UserAccount(-1,usernameField.getText(),passwordField.getText(),avatarField.getText());
             dao.addUser(ua);
             Stage stage=(Stage)usernameField.getScene().getWindow();
