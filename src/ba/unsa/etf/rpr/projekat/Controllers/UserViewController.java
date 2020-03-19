@@ -25,6 +25,8 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import net.sf.jasperreports.engine.JRException;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 
 
@@ -61,9 +63,19 @@ public class UserViewController extends Controller implements DataControl {
         choiceBoxDV.setValue(SearchType.All);
         usernameMenu.setText(accountInUse.getUsername());
         new Thread(() -> {
-            Image image = new Image(accountInUse.getAvatarLink());
+            Image image = null;
+            try {
+                image = new Image(accountInUse.getAvatarLink());
+            } catch (IllegalArgumentException e){
+                try {
+                    image=new Image(new FileInputStream("resources/img/controller.png"));
+                } catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            Image finalImage = image;
             Platform.runLater(() -> {
-                ImageView imageView = new ImageView(image);
+                ImageView imageView = new ImageView(finalImage);
                 imageView.setFitWidth(15);
                 imageView.setFitHeight(15);
                 usernameMenu.setGraphic(imageView);
@@ -126,9 +138,19 @@ public class UserViewController extends Controller implements DataControl {
                     openGameView(vg);
                 });
                 new Thread(() -> {
-                    Image image = new Image(vg.getImageLink());
+                    Image image = null;
+                    try {
+                        image = new Image(vg.getImageLink());
+                    } catch (IllegalArgumentException e){
+                        try {
+                            image=new Image(new FileInputStream("resources/img/controller.png"));
+                        } catch (FileNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                    Image finalImage = image;
                     Platform.runLater(() -> {
-                        ImageView imageView = new ImageView(image);
+                        ImageView imageView = new ImageView(finalImage);
                         imageView.setFitHeight(100);
                         imageView.setFitWidth(100);
                         button.setGraphic(imageView);
@@ -165,9 +187,19 @@ public class UserViewController extends Controller implements DataControl {
                     openDeveloperView(dv);
                 });
                 new Thread(() -> {
-                    Image image = new Image(dv.getIconLink());
+                    Image image = null;
+                    try {
+                        image = new Image(dv.getIconLink());
+                    } catch (IllegalArgumentException e){
+                        try {
+                            image=new Image(new FileInputStream("resources/img/controller.png"));
+                        } catch (FileNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                    Image finalImage = image;
                     Platform.runLater(() -> {
-                        ImageView imageView = new ImageView(image);
+                        ImageView imageView = new ImageView(finalImage);
                         imageView.setFitHeight(100);
                         imageView.setFitWidth(100);
                         button.setGraphic(imageView);
