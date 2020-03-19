@@ -32,14 +32,14 @@ public class GameFormController extends Controller {
     @FXML
     public void initialize() {
         developerChoiceBox.setItems(dao.getDevelopers());
-        releaseDatePicker.getEditor().setEditable(false);
+        releaseDatePicker.getEditor().setDisable(true);
         if (videoGame != null) {
             nameField.setText(videoGame.getName());
             genreField.setText(videoGame.getGenre());
             descriptionField.setText(videoGame.getDescription());
             imageField.setText(videoGame.getImageLink());
             developerChoiceBox.setValue(videoGame.getDeveloper());
-            releaseDatePicker.getEditor().setText(videoGame.getReleaseDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            releaseDatePicker.setValue(videoGame.getReleaseDate());
         }
     }
 
@@ -80,6 +80,7 @@ public class GameFormController extends Controller {
                 videoGame.setImageLink(imageField.getText());
                 videoGame.setGenre(genreField.getText());
                 videoGame.setDeveloper(developerChoiceBox.getValue());
+                videoGame.setReleaseDate(releaseDatePicker.getValue());
                 dao.updateVideoGame(videoGame);
 
             } else {
