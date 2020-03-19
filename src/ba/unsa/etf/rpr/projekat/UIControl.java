@@ -17,19 +17,19 @@ import java.util.ResourceBundle;
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
 public class UIControl {
-    public static void openWindow(Class cls,Controller controller, ResourceBundle bundle, String fxmlFile){
+    public static <ControllerType extends Controller> void openWindow(Class cls,ControllerType controller, ResourceBundle bundle, String fxmlFile){
         openWindow(cls,controller,bundle,fxmlFile,bundle.getString("vgDatabase"));
     }
 
-    public static void openWindow(Class cls,Controller controller, ResourceBundle bundle, String fxmlFile, String title){
+    public static <ControllerType extends Controller> void openWindow(Class cls,ControllerType controller, ResourceBundle bundle, String fxmlFile, String title){
         openWindow(cls,controller,bundle,fxmlFile,title,true);
     }
 
-    public static void openWindow(Class cls,Controller controller, ResourceBundle bundle, String fxmlFile, Boolean resizable){
+    public static <ControllerType extends Controller> void openWindow(Class cls,ControllerType controller, ResourceBundle bundle, String fxmlFile, Boolean resizable){
         openWindow(cls,controller,bundle,fxmlFile,bundle.getString("vgDatabase"),resizable);
     }
 
-    public static void openWindow(Class cls,Controller controller, ResourceBundle bundle, String fxmlFile, String title, Boolean resizeable){
+    public static <ControllerType extends Controller> void openWindow(Class cls,ControllerType controller, ResourceBundle bundle, String fxmlFile, String title, Boolean resizeable){
         Stage stage = new Stage();
         Parent root = null;
         try {
