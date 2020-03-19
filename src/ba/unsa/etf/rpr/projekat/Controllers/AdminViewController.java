@@ -161,7 +161,7 @@ public class AdminViewController extends Controller implements DataControl {
         Developer developer = DVListView.getSelectionModel().getSelectedItem();
         if (developer == null) return;
         ObservableList<VideoGame> res = dao.getVideoGameByDeveloper(developer.getName());
-        if (res.isEmpty()) {
+        if (!res.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle(bundle.getString("deleteDV"));
             alert.setHeaderText(bundle.getString("deletingDV") + " " + developer.getName());

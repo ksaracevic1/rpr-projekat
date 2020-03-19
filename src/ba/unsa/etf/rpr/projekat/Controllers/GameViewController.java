@@ -61,7 +61,7 @@ public class GameViewController extends Controller {
         gameName.setText(selectedGame.getName());
         gameGenre.setText(selectedGame.getGenre());
         gameDeveloper.setText(selectedGame.getDeveloper().getName());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         gameReleaseDate.setText(selectedGame.getReleaseDate().format(formatter));
         gameDescription.setText(selectedGame.getDescription());
         UIControl.loadImage(gameImage, selectedGame.getImageLink(), 250, 250);
