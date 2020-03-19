@@ -34,12 +34,6 @@
             <tabs>
                 <Tab text="%videoGames" fx:id="videoGameTab">
                     <VBox>
-                        <HBox prefHeight="50" alignment="CENTER_LEFT" spacing="10">
-                            <Button text="%search" prefWidth="70" onAction="#searchVG"/>
-                            <TextField fx:id="searchFieldVG" prefWidth="300"/>
-                            <Label text="%searchBy"/>
-                            <ChoiceBox fx:id="choiceBoxVG" prefWidth="150"/>
-                        </HBox>
                         <ButtonBar prefHeight="50">
                             <buttons>
                                 <Button text="%add" onAction="#addVideoGame"/>
@@ -54,12 +48,6 @@
                 </Tab>
                 <Tab text="%developers" fx:id="developerTab">
                     <VBox>
-                        <HBox prefHeight="50" alignment="CENTER_LEFT" spacing="10">
-                            <Button text="%search" prefWidth="70" onAction="#searchDV"/>
-                            <TextField fx:id="searchFieldDV" prefWidth="300"/>
-                            <Label text="%searchBy" />
-                            <ChoiceBox fx:id="choiceBoxDV" prefWidth="150"/>
-                        </HBox>
                         <ButtonBar prefHeight="50">
                             <buttons>
                                 <Button text="%add" onAction="#addDeveloper"/>
@@ -74,12 +62,6 @@
                 </Tab>
                 <Tab text="%users" fx:id="userTab">
                     <VBox>
-                        <HBox prefHeight="50" alignment="CENTER_LEFT" spacing="10">
-                            <Button text="%search" prefWidth="70" onAction="#searchUsers"/>
-                            <TextField fx:id="searchFieldUsers" prefWidth="300"/>
-                            <Label text="%searchBy"/>
-                            <ChoiceBox fx:id="choiceBoxUsers" prefWidth="150"/>
-                        </HBox>
                         <ButtonBar prefHeight="50">
                             <buttons>
                                 <Button text="%add" onAction="#addUser"/>
@@ -94,12 +76,6 @@
                 </Tab>
                 <Tab text="%admins" fx:id="adminTab">
                     <VBox>
-                        <HBox prefHeight="50" alignment="CENTER_LEFT" spacing="10">
-                            <Button text="%search" prefWidth="70" onAction="#searchAdmins"/>
-                            <TextField fx:id="searchFieldAdmins" prefWidth="300"/>
-                            <Label text="%searchBy"/>
-                            <ChoiceBox fx:id="choiceBoxAdmins" prefWidth="150"/>
-                        </HBox>
                         <ButtonBar prefHeight="50">
                             <buttons>
                                 <Button text="%add" onAction="#addAdmin"/>

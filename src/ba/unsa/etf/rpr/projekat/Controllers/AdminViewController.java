@@ -231,7 +231,7 @@ public class AdminViewController extends Controller implements DataControl {
         if(selectedAdmin.equals(accountInUse)){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle(bundle.getString("error"));
-            alert.setHeaderText(bundle.getString("cannotUpdateAdmin"));
+            alert.setHeaderText(bundle.getString("cannotDeleteAdmin"));
             alert.setContentText(bundle.getString("loggedAdmin"));
             alert.show();
         } else {
@@ -245,18 +245,6 @@ public class AdminViewController extends Controller implements DataControl {
                 adminAccounts.remove(selectedAdmin);
             }
         }
-    }
-
-    public void searchVG(ActionEvent actionEvent) {
-    }
-
-    public void searchDV(ActionEvent actionEvent) {
-    }
-
-    public void searchUsers(ActionEvent actionEvent) {
-    }
-
-    public void searchAdmins(ActionEvent actionEvent) {
     }
 
     private void configureLists() {
