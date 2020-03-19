@@ -207,7 +207,7 @@ public class AdminViewController extends Controller implements DataControl {
     }
 
     public void addAdmin(ActionEvent actionEvent) {
-        UIControl.openWindow(getClass(), new AdminFormController(null, dao, adminAccounts), bundle, "adminFrom.fxml", false);
+        UIControl.openWindow(getClass(), new AdminFormController(null, dao, adminAccounts), bundle, "adminForm.fxml", false);
     }
 
     public void updateAdmin(ActionEvent actionEvent) {
@@ -220,7 +220,7 @@ public class AdminViewController extends Controller implements DataControl {
                 alert.setContentText(bundle.getString("loggedAdmin"));
                 alert.show();
             } else {
-                UIControl.openWindow(getClass(), new AdminFormController(selectedAdmin, dao, adminAccounts), bundle, "adminFrom.fxml", false);
+                UIControl.openWindow(getClass(), new AdminFormController(selectedAdmin, dao, adminAccounts), bundle, "adminForm.fxml", false);
             }
         }
     }

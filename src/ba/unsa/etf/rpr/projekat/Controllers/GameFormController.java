@@ -1,7 +1,6 @@
 package ba.unsa.etf.rpr.projekat.Controllers;
 
 import ba.unsa.etf.rpr.projekat.DTO.Developer;
-import ba.unsa.etf.rpr.projekat.DTO.UserAccount;
 import ba.unsa.etf.rpr.projekat.DTO.VideoGame;
 import ba.unsa.etf.rpr.projekat.Interfaces.DatabaseDAO;
 import javafx.collections.ObservableList;
@@ -9,8 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
-import java.time.format.DateTimeFormatter;
 
 public class GameFormController extends Controller {
 
