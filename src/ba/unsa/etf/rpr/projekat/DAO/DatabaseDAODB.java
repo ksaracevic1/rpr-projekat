@@ -89,7 +89,7 @@ public class DatabaseDAODB implements DatabaseDAO {
             removeReviewsByGameQuery = conn.prepareStatement("DELETE FROM game_review WHERE game_id=?");
             removeReviewsByUserQuery = conn.prepareStatement("DELETE FROM game_review WHERE user_id=?");
 
-            updateVideoGameQuery = conn.prepareStatement("UPDATE video_game SET name=?, dev_id=?, genre=?, description=?, release_date=?, image_link=? WHERE id=?");
+            updateVideoGameQuery = conn.prepareStatement("UPDATE video_game SET name=?, genre=?, dev_id=?, description=?, release_date=?, image_link=? WHERE id=?");
             updateDeveloperQuery = conn.prepareStatement("UPDATE developer SET name=?, description=?, icon=? WHERE id=?");
             updateUserQuery = conn.prepareStatement("UPDATE user_account SET username=?, password=?, avatar=? WHERE id=?");
             updateAdminQuery = conn.prepareStatement("UPDATE admin_account SET username=?, password=? WHERE id=?");

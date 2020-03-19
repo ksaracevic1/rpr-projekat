@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
@@ -50,9 +51,19 @@ public class UIControl {
 
     public static void loadImage(ImageView imageView,String imageLink,double height, double width){
         new Thread(()->{
-            Image image=new Image(imageLink);
+            Image image = null;
+            try {
+                 image = new Image(imageLink);
+            } catch (IllegalArgumentException e){
+                try {
+                    image=new Image(new FileInputStream("resources/img/controller.png"));
+                } catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            Image finalImage = image;
             Platform.runLater(()->{
-                imageView.setImage(image);
+                imageView.setImage(finalImage);
                 imageView.setFitHeight(height);
                 imageView.setFitWidth(width);
             });
