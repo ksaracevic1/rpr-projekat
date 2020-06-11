@@ -33,16 +33,14 @@ public class LoginController extends Controller {
     public TextField usernameField;
     public PasswordField passwordField;
 
-    public Button loginButton, exitButton, registerButton;
+    public Button loginButton, exitButton, registerButton, languageButton;
 
     public Label errorLabel,quoteLabel,authorLabel;
-    public ChoiceBox<String> languageBox;
 
     private DatabaseDAO dao = null;
     private ArrayList<Account> accounts = null;
     private ResourceBundle bundle = ResourceBundle.getBundle("Language");
-    private ObservableList<String> languages =
-            FXCollections.observableArrayList(bundle.getString("bosnian"), bundle.getString("english"));
+    private static int lang=0;
 
     public LoginController(DatabaseDAO dao) {
         this.dao = dao;
@@ -55,7 +53,12 @@ public class LoginController extends Controller {
         accounts = new ArrayList<Account>();
         accounts.addAll(dao.getAdmins());
         accounts.addAll(dao.getUsers());
-        languageBox.setItems(languages);
+        if(lang%2==0){
+            languageButton.setText("Bosnian");
+        } else{
+            languageButton.setText("Engleski");
+        }
+        lang++;
         loadQuote();
     }
 
@@ -97,10 +100,9 @@ public class LoginController extends Controller {
     }
 
     public void switchLanguage(ActionEvent actionEvent) {
-        int pos = languages.indexOf(languageBox.getValue());
-        if (pos == 0) {
+        if (lang%2!=0) {
             Locale.setDefault(new Locale("bs_BA"));
-        } else if (pos == 1) {
+        } else {
             Locale.setDefault(new Locale("en_US", "US"));
         }
         Scene scene = usernameField.getScene();
@@ -110,6 +112,7 @@ public class LoginController extends Controller {
         try {
             scene.setRoot(loader.load());
         } catch (IOException | NullPointerException e) {
+
         }
     }
 

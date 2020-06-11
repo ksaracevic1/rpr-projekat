@@ -24,7 +24,7 @@
     </rowConstraints>
     <children>
         <Label text="%language" GridPane.rowIndex="0" />
-        <ChoiceBox fx:id="languageBox" onAction="#switchLanguage" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="0" />
+        <Button fx:id="languageButton" onAction="#switchLanguage" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="0" />
         <Label text="%username" GridPane.rowIndex="1" />
         <TextField fx:id="usernameField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         <Label text="%password" GridPane.rowIndex="2" />
