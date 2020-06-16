@@ -7,8 +7,6 @@ import ba.unsa.etf.rpr.projekat.DTO.UserAccount;
 import ba.unsa.etf.rpr.projekat.Interfaces.DatabaseDAO;
 import ba.unsa.etf.rpr.projekat.UIControl;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,7 +31,7 @@ public class LoginController extends Controller {
     public TextField usernameField;
     public PasswordField passwordField;
 
-    public Button loginButton, exitButton, registerButton, languageButton;
+    public Button exitButton, languageButton;
 
     public Label errorLabel,quoteLabel,authorLabel;
 
