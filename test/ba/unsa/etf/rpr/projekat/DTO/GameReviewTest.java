@@ -1,6 +1,5 @@
 package ba.unsa.etf.rpr.projekat.DTO;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
