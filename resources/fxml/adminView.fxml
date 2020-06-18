@@ -78,9 +78,9 @@
                     <VBox>
                         <ButtonBar prefHeight="50">
                             <buttons>
-                                <Button text="%add" onAction="#addAdmin"/>
-                                <Button text="%update" onAction="#updateAdmin"/>
-                                <Button text="%delete" onAction="#deleteAdmin"/>
+                                <Button fx:id="addAdminButton" text="%add" onAction="#addAdmin"/>
+                                <Button fx:id="updateAdminButton" text="%update" onAction="#updateAdmin"/>
+                                <Button fx:id="deleteAdminButton" text="%delete" onAction="#deleteAdmin"/>
                             </buttons>
                         </ButtonBar>
                         <ScrollPane fx:id="scrollPaneAdmins" fitToWidth="true" fitToHeight="true" prefHeight="400">
