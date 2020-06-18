@@ -21,28 +21,22 @@ class LoginControllerTest {
     DatabaseDAO dao;
 
     @Start
-    public void start(Stage primaryStage) throws Exception {
-        dao = new DatabaseDAODB();
+        public void start(Stage primaryStage) throws Exception {
+            dao = new DatabaseDAODB();
         UIControl.openWindow(getClass(), new LoginController(dao), ResourceBundle.getBundle("Language"), "login.fxml", false);
     }
 
     @Test
-    void loginFail(FxRobot robot) {
+    void loginScreenTest(FxRobot robot) {
         robot.clickOn("#usernameField").write("invalidUser");
         robot.clickOn("#loginButton");
         Label errorLabel = robot.lookup("#errorLabel").queryAs(Label.class);
         assertEquals("Username or password field empty", errorLabel.getText());
-    }
 
-    @Test
-    void switchLanguage(FxRobot robot) {
         robot.clickOn("#languageButton");
         Button languageButton = robot.lookup("#languageButton").queryAs(Button.class);
         assertEquals("Engleski", languageButton.getText());
-    }
 
-    @Test
-    void registerClick(FxRobot robot) {
         robot.clickOn("#registerButton");
         Label avatarField = robot.lookup("#errorLabel").queryAs(Label.class);
         assertEquals("", avatarField.getText());

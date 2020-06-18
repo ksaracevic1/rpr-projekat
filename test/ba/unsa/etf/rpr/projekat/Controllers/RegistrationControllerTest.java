@@ -38,26 +38,20 @@ class RegistrationControllerTest {
     }
 
     @Test
-    void registerUsernameFail(FxRobot robot) {
+    void registrationTest(FxRobot robot) {
         robot.clickOn("#usernameField").write("A");
         robot.clickOn("#registerButton");
         TextField usernameField = robot.lookup("#usernameField").queryAs(TextField.class);
         assertTrue(containsStyle(usernameField,"fieldIncorrect"));
-    }
 
-    @Test
-    void registerPasswordFail(FxRobot robot) {
         robot.clickOn("#passwordField").write("B");
         robot.clickOn("#registerButton");
-        TextField usernameField = robot.lookup("#passwordField").queryAs(TextField.class);
+        usernameField = robot.lookup("#passwordField").queryAs(TextField.class);
         assertTrue(containsStyle(usernameField,"fieldIncorrect"));
-    }
 
-    @Test
-    void registerPasswordSuccess(FxRobot robot) {
         robot.clickOn("#passwordField").write("Pa$$w0rd");
         robot.clickOn("#registerButton");
-        TextField usernameField = robot.lookup("#passwordField").queryAs(TextField.class);
+        usernameField = robot.lookup("#passwordField").queryAs(TextField.class);
         assertTrue(containsStyle(usernameField,"fieldCorrect"));
     }
 

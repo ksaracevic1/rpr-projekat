@@ -2,7 +2,6 @@ package ba.unsa.etf.rpr.projekat.Controllers;
 
 import ba.unsa.etf.rpr.projekat.DAO.DatabaseDAODB;
 import ba.unsa.etf.rpr.projekat.DAO.DatabaseDAOXML;
-import ba.unsa.etf.rpr.projekat.DTO.Account;
 import ba.unsa.etf.rpr.projekat.DTO.Developer;
 import ba.unsa.etf.rpr.projekat.DTO.UserAccount;
 import ba.unsa.etf.rpr.projekat.DTO.VideoGame;

@@ -481,7 +481,7 @@ public class DatabaseDAODB implements DatabaseDAO {
     @Override
     public void updateAdmin(AdminAccount adminAccount) {
         try {
-            updateAdminQuery.setInt(4, adminAccount.getId());
+            updateAdminQuery.setInt(3, adminAccount.getId());
             updateAdminQuery.setString(1, adminAccount.getUsername());
             updateAdminQuery.setString(2, adminAccount.getPassword());
             updateAdminQuery.executeUpdate();
